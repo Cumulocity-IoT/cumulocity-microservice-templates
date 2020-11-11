@@ -1,5 +1,6 @@
-package com.sag.c8y.template.controller;
+package com.c8y.ms.templates.ehcache.controller;
 
+import com.c8y.ms.templates.ehcache.service.InventoryApiCachedService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import com.cumulocity.sdk.client.cep.notification.InventoryRealtimeDeleteAwareNo
 import com.cumulocity.sdk.client.cep.notification.ManagedObjectDeleteAwareNotification;
 import com.cumulocity.sdk.client.notification.Subscription;
 import com.cumulocity.sdk.client.notification.SubscriptionListener;
-import com.sag.c8y.template.service.InventoryApiCachedService;
 
 @Component
 public class NotificationController {

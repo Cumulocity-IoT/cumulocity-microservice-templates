@@ -1,4 +1,4 @@
-package com.sag.c8y.template.config;
+package com.c8y.ms.templates.ehcache.config;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Configuration;

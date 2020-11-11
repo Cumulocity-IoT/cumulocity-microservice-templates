@@ -1,4 +1,4 @@
-package com.sag.c8y.template.rest;
+package com.c8y.ms.templates.ehcache.rest;
 
 public class DeviceInfoResponse {
 	private String id;

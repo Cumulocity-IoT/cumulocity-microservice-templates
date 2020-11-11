@@ -1,5 +1,7 @@
-package com.sag.c8y.template.rest;
+package com.c8y.ms.templates.ehcache.rest;
 
+import com.c8y.ms.templates.ehcache.service.IdentityApiCachedService;
+import com.c8y.ms.templates.ehcache.service.InventoryApiCachedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,8 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cumulocity.rest.representation.identity.ExternalIDRepresentation;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
-import com.sag.c8y.template.service.IdentityApiCachedService;
-import com.sag.c8y.template.service.InventoryApiCachedService;
 
 @RestController
 @RequestMapping("/inventory")

@@ -1,4 +1,4 @@
-package com.sag.c8y.template;
+package com.c8y.ms.templates.ehcache;
 
 import org.springframework.boot.SpringApplication;
 
@@ -15,9 +15,9 @@ import com.cumulocity.microservice.context.annotation.EnableContextSupport;
  */
 @MicroserviceApplication
 @EnableContextSupport
-public class TemplateApplication {
+public class App {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TemplateApplication.class, args);
+		SpringApplication.run(App.class, args);
 	}
 }

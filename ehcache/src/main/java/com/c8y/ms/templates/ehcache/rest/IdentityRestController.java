@@ -1,4 +1,4 @@
-package com.sag.c8y.template.rest;
+package com.c8y.ms.templates.ehcache.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

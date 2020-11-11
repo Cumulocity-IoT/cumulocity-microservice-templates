@@ -1,4 +1,4 @@
-package com.sag.c8y.template.service;
+package com.c8y.ms.templates.ehcache.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

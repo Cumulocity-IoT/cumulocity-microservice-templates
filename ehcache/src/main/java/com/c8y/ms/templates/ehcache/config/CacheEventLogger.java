@@ -1,4 +1,4 @@
-package com.sag.c8y.template.config;
+package com.c8y.ms.templates.ehcache.config;
 
 import org.ehcache.event.CacheEvent;
 import org.ehcache.event.CacheEventListener;

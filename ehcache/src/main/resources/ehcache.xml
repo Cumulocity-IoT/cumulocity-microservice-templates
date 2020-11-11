@@ -15,7 +15,7 @@
  
         <listeners>
             <listener>
-                <class>com.sag.c8y.template.config.CacheEventLogger</class>
+                <class>com.c8y.ms.templates.ehcache.config.CacheEventLogger</class>
                 <event-firing-mode>ASYNCHRONOUS</event-firing-mode>
                 <event-ordering-mode>UNORDERED</event-ordering-mode>
                 <events-to-fire-on>CREATED</events-to-fire-on>
@@ -37,7 +37,7 @@
  
         <listeners>
             <listener>
-                <class>com.sag.c8y.template.config.CacheEventLogger</class>
+                <class>com.c8y.ms.templates.ehcache.config.CacheEventLogger</class>
                 <event-firing-mode>ASYNCHRONOUS</event-firing-mode>
                 <event-ordering-mode>UNORDERED</event-ordering-mode>
                 <events-to-fire-on>CREATED</events-to-fire-on>
