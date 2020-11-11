@@ -1,4 +1,4 @@
-# templates-basic
+# templates-ehcache
 
 ## Summary
 Template / Example for a microservice using spring cache abstraction and EHCACHE library.
