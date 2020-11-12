@@ -51,11 +51,7 @@ Response body:
 
 to your src/main/resources/application-dev.properties
 
-6. Set environment variable
-
-C8Y_MICROSERVICE_ISOLATION=MULTI_TENANT
-
-7. Start microservice with spring profile "dev"
+6. Start microservice with spring profile "dev"
 
 java -Dspring.profiles.active=dev -jar cumulocity-microservice-templates-basic-0.0.1-SNAPSHOT.jar
 
