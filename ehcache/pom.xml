@@ -70,6 +70,7 @@
 					<include>**/application*.properties</include>
 					<include>**/application.properties</include>
 					<include>**/banner.txt</include>
+					<include>**/ehcache.xml</include>
 				</includes>
 			</resource>
 		</resources>
