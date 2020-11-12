@@ -83,8 +83,8 @@ public class NotificationController {
 					}
 
 					@Override
-					public void onError(Subscription<String> arg0, Throwable arg1) {
-						// TODO Auto-generated method stub
+					public void onError(Subscription<String> subscription, Throwable t) {
+						LOG.error("Subscription failed: " + subscription.toString(), t);
 					}
 				});
 	}

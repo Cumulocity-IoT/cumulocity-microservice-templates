@@ -1,5 +1,6 @@
 package com.c8y.ms.templates.ehcache.service;
 
+import com.cumulocity.sdk.client.SDKException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class IdentityApiCachedService {
 			}
 			LOG.info("ExternalId found");
 			return externalIDRepresentation;
-		}catch(Exception ex) {
+		} catch(SDKException ex) {
 			LOG.error("", ex);
 			return null;
 		}

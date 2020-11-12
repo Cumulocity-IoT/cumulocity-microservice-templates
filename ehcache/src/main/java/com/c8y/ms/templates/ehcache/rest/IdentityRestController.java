@@ -10,8 +10,6 @@ import com.cumulocity.sdk.client.identity.IdentityApi;
 @RequestMapping("/identity")
 public class IdentityRestController {
 
-	//externalIds/{{externalIdType}}/{{externalId}}
-	
 	private IdentityApi identityApi;
 	
 	@Autowired

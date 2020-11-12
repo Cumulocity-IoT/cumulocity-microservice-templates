@@ -19,7 +19,7 @@ integration has fewer problems with frequent platform communication. This approa
 
 mvn clean install
 
-2. Create application at comulocity
+2. Create application at cumulocity
 
 POST 'https://{base-url}/application/applications'
 

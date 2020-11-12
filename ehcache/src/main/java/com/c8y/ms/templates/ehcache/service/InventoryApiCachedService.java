@@ -1,5 +1,6 @@
 package com.c8y.ms.templates.ehcache.service;
 
+import com.cumulocity.sdk.client.SDKException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
@@ -26,13 +27,9 @@ public class InventoryApiCachedService {
 		LOG.info("load ManagedObject of: {}", id); 
 		try {
 			ManagedObjectRepresentation managedObjectRepresentation = inventoryApi.get(GId.asGId(id));
-			if(managedObjectRepresentation == null) {
-				LOG.info("ManagedObject not found!");
-				return null;
-			}
 			LOG.info("ManagedObject found");
 			return managedObjectRepresentation;
-		}catch(Exception ex) {
+		} catch(SDKException ex) {
 			LOG.error("", ex);
 			return null;
 		}
