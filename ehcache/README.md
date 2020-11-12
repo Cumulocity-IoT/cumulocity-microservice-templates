@@ -1,7 +1,17 @@
-# templates-basic
+# templates-ehcache
 
 ## Summary
-Template / Example for a basic microservice which provides a simple REST interface
+Template / Example for a microservice using spring cache abstraction and EHCACHE library.
+
+Spring Cache Abstraction: https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/cache.html
+
+EHCACHE: https://www.ehcache.org/
+
+## Use case
+
+For device / asset integration the external id (unique external identifier) is used for correlate devices and assets.
+To keep the communication less frequent to the platform a managed cache can be used. Be aware server side (microserivce)
+integration has fewer problems with frequent platform communication. This approach is more interesting for agent and edge development, where bandwidth to cloud isn't always high. 
 
 ## How to run locally:
 
@@ -9,7 +19,7 @@ Template / Example for a basic microservice which provides a simple REST interfa
 
 mvn clean install
 
-2. Create application at comulocity
+2. Create application at cumulocity
 
 POST 'https://{base-url}/application/applications'
 
@@ -17,14 +27,17 @@ Request body:
 
 ```javascript
 {
-  "key": "templates-basic",
-  "name": "templates-basic",
-  "contextPath": "templates-basic",
+  "key": "templates-ehcache",
+  "name": "templates-ehcache",
+  "contextPath": "templates-ehcache",
   "type": "MICROSERVICE",
   "manifest":{},	
 	"requiredRoles": [
 		"ROLE_INVENTORY_READ",
-		"ROLE_INVENTORY_ADMIN"
+		"ROLE_INVENTORY_CREATE",
+		"ROLE_INVENTORY_ADMIN",
+		"ROLE_IDENTITY_READ",
+		"ROLE_IDENTITY_ADMIN"
 	],
 	"roles": [
 	]
@@ -42,7 +55,7 @@ Response body:
 ```javascript
 {
     "password": "************************",
-    "name": "servicebootstrap_templates-basic",
+    "name": "servicebootstrap_templates-ehcache",
     "tenant": "<your tenant>"
 }
 ```
@@ -53,7 +66,7 @@ to your src/main/resources/application-dev.properties
 
 6. Start microservice with spring profile "dev"
 
-java -Dspring.profiles.active=dev -jar cumulocity-microservice-templates-basic-0.0.1-SNAPSHOT.jar
+java -Dspring.profiles.active=dev -jar cumulocity-microservice-templates-ehcache-0.0.1-SNAPSHOT.jar
 
 ## Disclaimer
 

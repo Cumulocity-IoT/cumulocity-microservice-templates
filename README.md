@@ -7,6 +7,8 @@ Collection of templates / examples to give the developer a starting point how co
 
 [basic](basic/README.md)
 
+[ehcache](ehcache/README.md)
+
 more to come ...
 
 ## Disclaimer
