@@ -11,7 +11,9 @@ EHCACHE: https://www.ehcache.org/
 
 For device / asset integration the external id (unique external identifier) is used for correlate devices and assets.
 To keep the communication less frequent to the platform a managed cache can be used. Be aware server side (microserivce)
-integration has fewer problems with frequent platform communication. This approach is more interesting for agent and edge development, where bandwidth to cloud isn't always high. 
+integration has fewer problems with frequent platform communication. This approach is more interesting for agent and edge development, where bandwidth to cloud isn't always high.
+
+This example shows how external IDs (Identity) and managed objects (Inventory) get cached using ehcache. Also a inventory listener is implemented. If the microservice gets notified that managed object has changed, managed object will be removed (evict) from cache. There are also many configuration possibilities for ehcache, see ehcache.xml. For example expiry and heap. 
 
 ## How to run locally:
 
