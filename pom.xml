@@ -23,6 +23,7 @@
 
     <modules>
         <module>basic</module>
+		<module>encrypted_secret</module>
 		<module>ehcache</module>
     </modules>
     
