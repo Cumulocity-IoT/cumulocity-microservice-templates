@@ -15,8 +15,6 @@ import com.cumulocity.sdk.client.option.TenantOptionApi;
 @RequestMapping("/secret")
 public class SecretRESTController {
 
-	private static final String SECRET_KEY = "credentials.secret";
-
 	private SecretService secretService;
 
 	public SecretRESTController(SecretService secretService) {
@@ -35,6 +33,9 @@ public class SecretRESTController {
 		return new ResponseEntity<String>(option.getValue(), HttpStatus.OK);
 	}
 
+	/**
+	 * When microservice runs hosted, the option is being sent to the microservice, the “credentials.” prefix is removed and the value is decrypted
+	 */
 	@GetMapping(path = "/header", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> getServerKey(@RequestHeader(value = "secret") String secret) throws Exception {
 		return new ResponseEntity<String>(secret, HttpStatus.OK);

@@ -8,7 +8,7 @@ Cumulocity tenant options: https://cumulocity.com/guides/reference/tenants/#opti
 
 ## Use case
 
-Often used for cloud 2 cloud integration when credentials of other API must be stored at Cumulocity. 
+Often used for cloud 2 cloud integration when credentials of other API must be stored encrypted at Cumulocity. 
 
 ## How to run locally:
 
