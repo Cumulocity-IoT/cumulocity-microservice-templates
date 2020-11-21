@@ -1,4 +1,4 @@
-# templates-ehcache
+# templates-secret
 
 ## Summary
 Template / Example for a microservice using tenant options to store a secret encrypted on the Cumulocity platform.
@@ -24,9 +24,9 @@ Request body:
 
 ```javascript
 {
-  "key": "templates-encrypted-secret",
-  "name": "templates-encrypted-secret",
-  "contextPath": "templates-encrypted-secret",
+  "key": "templates-secret",
+  "name": "templates-secret",
+  "contextPath": "templates-secret",
   "type": "MICROSERVICE",
   "manifest":{},	
 	"requiredRoles": [
@@ -49,7 +49,7 @@ Response body:
 ```javascript
 {
     "password": "************************",
-    "name": "servicebootstrap_templates-ehcache",
+    "name": "servicebootstrap_templates-secret",
     "tenant": "<your tenant>"
 }
 ```
@@ -60,7 +60,7 @@ to your src/main/resources/application-dev.properties
 
 6. Start microservice with spring profile "dev"
 
-java -Dspring.profiles.active=dev -jar cumulocity-microservice-templates-encrypted-secret-0.0.1-SNAPSHOT.jar
+java -Dspring.profiles.active=dev -jar cumulocity-microservice-templates-secret-0.0.1-SNAPSHOT.jar
 
 ## Disclaimer
 
