@@ -1,7 +1,7 @@
 # cumulocity-microservice-templates
 
 ## Summary
-Collection of templates / examples to give the developer a starting point how common features can be solved by using Cumulocity Microservice SDK for Java.
+Collection of templates / examples to give the developer a starting point how common features can be solved by using Cumulocity [Microservice SDK for Java](https://cumulocity.com/guides/microservice-sdk/java/).
 
 ## Collection
 
