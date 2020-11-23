@@ -1,6 +1,5 @@
-package com.c8y.ms.templates.ehcache.controller;
+package com.c8y.ms.templates.ehcache.service;
 
-import com.c8y.ms.templates.ehcache.service.InventoryApiCachedService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,8 @@ import com.cumulocity.sdk.client.notification.Subscription;
 import com.cumulocity.sdk.client.notification.SubscriptionListener;
 
 @Component
-public class NotificationController {
-	private static final Logger LOG = LoggerFactory.getLogger(NotificationController.class);
+public class NotificationService {
+	private static final Logger LOG = LoggerFactory.getLogger(NotificationService.class);
 
 	@Autowired
 	private ContextService<MicroserviceCredentials> contextService;

@@ -1,4 +1,4 @@
-package com.c8y.ms.templates.ehcache.rest;
+package com.c8y.ms.templates.ehcache.controller;
 
 import com.c8y.ms.templates.ehcache.service.IdentityApiCachedService;
 import com.c8y.ms.templates.ehcache.service.InventoryApiCachedService;
@@ -38,7 +38,7 @@ public class InventoryRestController {
 	public ResponseEntity<ManagedObjectRepresentation> getManagedObjectRepresentation(@PathVariable String deviceId) {
 		ManagedObjectRepresentation managedObjectRepresentation = inventoryApi.get(deviceId);
 		if(managedObjectRepresentation == null) {
-			new ResponseEntity<DeviceInfoResponse>(HttpStatus.NOT_FOUND); 
+			new ResponseEntity<ManagedObjectRepresentation>(HttpStatus.NOT_FOUND);
 		}
 
 		return new ResponseEntity<ManagedObjectRepresentation>(managedObjectRepresentation, HttpStatus.OK);
