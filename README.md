@@ -1,13 +1,15 @@
 # cumulocity-microservice-templates
 
 ## Summary
-Collection of templates / examples to give the developer a starting point how common features can be solved by using Cumulocity Microservice SDK for Java.
+Collection of templates / examples to give the developer a starting point how common features can be solved by using Cumulocity [Microservice SDK for Java](https://cumulocity.com/guides/microservice-sdk/java/).
 
 ## Collection
 
-[basic](basic/README.md)
+[basic](basic/README.md) (Simple Microservice which exposes REST API)
 
-[ehcache](ehcache/README.md)
+[ehcache](ehcache/README.md) (Microservice which uses ehcache for caching External IDs and managed objects)
+
+[secret](secret/README.md) (Microservice which stores a secret encrypted as tenant option)
 
 more to come ...
 
