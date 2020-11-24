@@ -22,7 +22,7 @@
 	</properties>
 
     <modules>
-        <module>basic</module>
+		<module>basic</module>
 		<module>secret</module>
 		<module>ehcache</module>
     </modules>
