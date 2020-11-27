@@ -7,6 +7,8 @@ Collection of templates / examples to give the developer a starting point how co
 
 [basic](basic/README.md) (Simple Microservice which exposes REST API)
 
+[agent](agent/README.md) (Microservice which has an agent representation (managed object) to retrieve configuration, write events etc.)
+
 [ehcache](ehcache/README.md) (Microservice which uses ehcache for caching External IDs and managed objects)
 
 [secret](secret/README.md) (Microservice which stores a secret encrypted as tenant option)
