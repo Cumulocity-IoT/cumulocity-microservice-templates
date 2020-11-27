@@ -23,6 +23,7 @@
 
     <modules>
 		<module>basic</module>
+		<module>agent</module>
 		<module>secret</module>
 		<module>ehcache</module>
     </modules>
