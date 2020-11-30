@@ -15,6 +15,12 @@ import com.cumulocity.sdk.client.notification.Subscriber;
 import com.cumulocity.sdk.client.notification.Subscription;
 import com.cumulocity.sdk.client.notification.SubscriptionListener;
 
+/**
+ *  Operation listener, consumes "c8y_Configuration" operation
+ *
+ *  @author alexander.pester@softwareag.com
+ *  @version 0.0.1
+ */
 @Service
 public class MicroserviceOperationListenerService {
 

@@ -45,7 +45,7 @@ import c8y.SupportedOperations;
 public class MicroserviceRepresentationService {
 	private static final Logger LOG = LoggerFactory.getLogger(MicroserviceRepresentationService.class);
 	
-	private static final String MICROSERVICE_TYPE = "nx_Agent";
+	private static final String MICROSERVICE_TYPE = "template_Microservice";
 	private static final String EVENT_TYPE = "service_monitoring";
 	private final InventoryApi inventory;
 	private final MicroserviceSubscriptionsService subscriptions;
@@ -58,15 +58,11 @@ public class MicroserviceRepresentationService {
 	@Value("${application.name}")
 	protected String applicationName;
 
-	protected String masterTenant;
-
 	@Value("${microservice.version}")
 	protected String applicationVersion;
 
 	@Value("${c8y.version}")
 	protected String c8yVersion;
-
-	private long count = 0;
 
 	private final Map<String, ManagedObjectRepresentation> agentRepresentations = new ConcurrentHashMap<>();
 
@@ -85,28 +81,27 @@ public class MicroserviceRepresentationService {
 	}
 
 	/**
-	 * Register microservice as an agent in every tenant.
+	 * Register microservice as an agent for subscribed tenant only.
 	 *
 	 * @param event
 	 */
 	@EventListener
 	private void onSubscriptionEvent(final MicroserviceSubscriptionAddedEvent event) {
-		masterTenant = event.getCredentials().getTenant();
+		String subscriptTenant = event.getCredentials().getTenant();
 
-		subscriptions.runForTenant(masterTenant, new Runnable() {
+		subscriptions.runForTenant(subscriptTenant, new Runnable() {
 
 			@Override
 			public void run() {
-				ManagedObjectRepresentation serviceRepresentation = findOrCreateSource(masterTenant);
-				long id = agentRepresentations.get(masterTenant) != null
-						? agentRepresentations.get(masterTenant).getId().getLong()
+				ManagedObjectRepresentation serviceRepresentation = findOrCreateSource(subscriptTenant);
+				long id = agentRepresentations.get(subscriptTenant) != null
+						? agentRepresentations.get(subscriptTenant).getId().getLong()
 						: 0L;
 				createEvent(serviceRepresentation, EVENT_TYPE,
 						"Microservice representation created or updated (onSubsription)!",
-						"Tenant: " + masterTenant + " ApplicationId: " + id);
+						"Tenant: " + subscriptTenant + " ApplicationId: " + id);
 			}
 		});
-
 	}
 
 	/**
@@ -116,15 +111,15 @@ public class MicroserviceRepresentationService {
 	 * @return
 	 */
 	private ManagedObjectRepresentation findOrCreateSource(final String tenant) {
-		Optional<GId> gId = findIdentity(MICROSERVICE_TYPE, getManagedObjectName());
+		Optional<GId> gId = findIdentity(MICROSERVICE_TYPE, applicationName);
 		ManagedObjectRepresentation microserviceRepresentation = null;
 		if (gId.isPresent()) {
 			LOG.info("Microservice representation found: " + gId.get().getValue());
 			microserviceRepresentation = findManagedObjectById(tenant, gId.get());
 		} else {
 			LOG.info("Microservice representation not found. Create");
-			microserviceRepresentation = createManagedObject(MICROSERVICE_TYPE, getManagedObjectName());
-			createIdentity(microserviceRepresentation.getId(), MICROSERVICE_TYPE, getManagedObjectName());
+			microserviceRepresentation = createManagedObject(MICROSERVICE_TYPE, applicationName);
+			createIdentity(microserviceRepresentation.getId(), MICROSERVICE_TYPE, applicationName);
 		}
 
 		configService.setMicroserviceAgentRepresentation(microserviceRepresentation.getId());
@@ -156,14 +151,7 @@ public class MicroserviceRepresentationService {
 		return Optional.absent();
 	}
 
-	/**
-	 * Find managed object by id
-	 *
-	 * @param tenant
-	 * @param id
-	 * @return
-	 */
-	public ManagedObjectRepresentation findManagedObjectById(final String tenant, final GId id) {
+	private ManagedObjectRepresentation findManagedObjectById(final String tenant, final GId id) {
 		return subscriptions.callForTenant(tenant, new Callable<ManagedObjectRepresentation>() {
 
 			@Override
@@ -190,7 +178,7 @@ public class MicroserviceRepresentationService {
 		return inventory.create(managedObject);
 	}
 
-	public ManagedObjectRepresentation updateManagedObject(ManagedObjectRepresentation currentManagedObject) {
+	private ManagedObjectRepresentation updateManagedObject(ManagedObjectRepresentation currentManagedObject) {
 		ManagedObjectRepresentation managedObject = new ManagedObjectRepresentation();
 		managedObject.setId(currentManagedObject.getId());
 
@@ -217,20 +205,6 @@ public class MicroserviceRepresentationService {
 		return softwareList;
 	}
 
-	public void createEvent(final String text, final Object details) {
-		subscriptions.runForTenant(masterTenant, new Runnable() {
-			@Override
-			public void run() {
-				ManagedObjectRepresentation source = agentRepresentations.get(masterTenant);
-				createEvent(source, EVENT_TYPE, text, details);
-			}
-		});
-	}
-
-	public ManagedObjectRepresentation getManagedObjectRepresentation() {
-		return agentRepresentations.get(masterTenant);
-	}
-
 	private void createEvent(ManagedObjectRepresentation source, String type, String text, Object details) {
 		EventRepresentation event = new EventRepresentation();
 		event.setText(text);
@@ -240,13 +214,4 @@ public class MicroserviceRepresentationService {
 		event.set(details, "nx_details");
 		eventApi.create(event);
 	}
-
-	private String getManagedObjectName() {
-		return applicationName;
-	}
-
-	public String getApplicationName() {
-		return applicationName;
-	}
-
 }

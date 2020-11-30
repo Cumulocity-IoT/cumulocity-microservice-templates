@@ -85,6 +85,4 @@ public class MicroserviceConfigurationProperties {
 			return false;
 		return true;
 	}
-	
-	
 }

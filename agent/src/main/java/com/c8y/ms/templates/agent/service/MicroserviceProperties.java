@@ -10,7 +10,7 @@ package com.c8y.ms.templates.agent.service;
  */
 public enum MicroserviceProperties {
 
-	MS_TEMPLATE_NAME("ms.template.name"), MS_TEMPLATE_ID("ms.template.list");
+	MS_CONFIG_PROPERTY("ms.config.property"), MS_CONFIG_PROPERTY_LIST("ms.config.property.list");
 	
 	private String key;
 	
