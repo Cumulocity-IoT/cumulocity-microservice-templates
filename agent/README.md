@@ -84,7 +84,7 @@ java -Dspring.profiles.active=dev -jar cumulocity-microservice-templates-agent-0
 At subscription the microservice creates an agent representation. Reads some properties from application properties
 and stores initial the key values into c8y_Configuration fragment. 
 
-![Device Management Configuratio](DeviceManagementScreenshot.png)
+![Device Management Configuration](DeviceManagementScreenshot.PNG)
 
 The configuration values can also be retrieve via REST Endpoint:
 
