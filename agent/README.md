@@ -79,6 +79,25 @@ to your src/main/resources/application-dev.properties
 
 java -Dspring.profiles.active=dev -jar cumulocity-microservice-templates-agent-0.0.1-SNAPSHOT.jar
 
+## Features
+
+At subscription the microservice creates an agent representation. Reads some properties from application properties
+and stores initial the key values into c8y_Configuration fragment. 
+
+![Device Management Configuratio](DeviceManagementScreenshot.png)
+
+The configuration values can also be retrieve via REST Endpoint:
+
+GET /api/config/{key}
+
+Example:
+```
+GET http://localhost:8080/api/config/ms.config.property.list
+
+REQUEST: A,B,C,D,E,F
+```
+
+
 ## Disclaimer
 
 These tools are provided as-is and without warranty or support. They do not constitute part of the Software AG product suite. Users are free to use, fork and modify them, subject to the license agreement. While Software AG welcomes contributions, we cannot guarantee to include every contribution in the master project.
