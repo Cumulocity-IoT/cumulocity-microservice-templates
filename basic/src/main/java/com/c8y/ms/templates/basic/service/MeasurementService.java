@@ -33,7 +33,7 @@ public class MeasurementService {
      * which is used on the list. If you want to query for a specific type you need
      * to add the type as a filter to the MeasurementFilter
      *
-     * @param deviceId
+     * @param deviceId id of device for which the latest measurement should be queried
      * @return the latest measurement as MeasurementRepresentation
      */
     public Optional<MeasurementRepresentation> getLatestMeasurement(final String deviceId) {

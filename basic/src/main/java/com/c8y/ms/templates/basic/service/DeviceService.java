@@ -26,7 +26,7 @@ public class DeviceService {
 
     private static final Logger LOG = LoggerFactory.getLogger(DeviceService.class);
 
-    private InventoryApi inventoryApi;
+    private final InventoryApi inventoryApi;
 
     public DeviceService(InventoryApi inventoryApi) {
         this.inventoryApi = inventoryApi;
@@ -58,8 +58,7 @@ public class DeviceService {
         }
 
         try {
-            ManagedObjectRepresentation deviceRepresentation = new ManagedObjectRepresentation();
-            deviceRepresentation = inventoryApi.get(new GId(deviceId));
+            final ManagedObjectRepresentation deviceRepresentation = inventoryApi.get(new GId(deviceId));
 
             return Optional.of(deviceRepresentation);
         } catch (SDKException exception) {

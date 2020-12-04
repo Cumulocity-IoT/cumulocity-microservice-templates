@@ -1,15 +1,17 @@
 package com.c8y.ms.templates.basic.controller;
 
-import java.util.List;
-
+import com.c8y.ms.templates.basic.service.DeviceService;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
 import com.google.common.base.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.c8y.ms.templates.basic.service.DeviceService;
+import java.util.List;
 
 /**
  * This is an example controller. This should be removed for your real project!
