@@ -13,15 +13,14 @@ import com.c8y.ms.templates.agent.service.MicroserviceConfigurationService;
 @RequestMapping("/api")
 public class ConfigRESTController {
 
-	private MicroserviceConfigurationService microserviceConfigurationService;
-	
-	@Autowired
-	public ConfigRESTController(MicroserviceConfigurationService microserviceConfigurationService) {
-		this.microserviceConfigurationService = microserviceConfigurationService;
-	}
+    private MicroserviceConfigurationService microserviceConfigurationService;
 
-	@GetMapping(path = "/config/{key:.+}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ConfigRESTController(MicroserviceConfigurationService microserviceConfigurationService) {
+        this.microserviceConfigurationService = microserviceConfigurationService;
+    }
+
+    @GetMapping(path = "/config/{key:.+}", produces = MediaType.APPLICATION_JSON_VALUE)
     public String greeting(@PathVariable String key) {
-		return microserviceConfigurationService.getPropertyValue(key);
+        return microserviceConfigurationService.getPropertyValue(key);
     }
 }

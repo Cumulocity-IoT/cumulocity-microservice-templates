@@ -2,7 +2,7 @@
 
 ## Summary
 Usually it is good practice to have a representation of the microservice in your device management. This managed object is actually an
-agent representation and can server for different use cases:
+agent representation and can serve different use cases:
 
 ## Use case
 

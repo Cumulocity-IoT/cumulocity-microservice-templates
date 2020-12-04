@@ -35,183 +35,182 @@ import c8y.SupportedOperations;
 /**
  * Service for add microservice as representation in cumulocity als
  * managedobject with agent fragment in order to store events etc. to it.
- * 
+ *
  * @author alexander.pester@softwareag.com
  * @version 0.0.1
- *
- *          03.09.2019
+ * <p>
+ * 03.09.2019
  */
 @Service
 public class MicroserviceRepresentationService {
-	private static final Logger LOG = LoggerFactory.getLogger(MicroserviceRepresentationService.class);
-	
-	private static final String MICROSERVICE_TYPE = "template_Microservice";
-	private static final String EVENT_TYPE = "service_monitoring";
-	private final InventoryApi inventory;
-	private final MicroserviceSubscriptionsService subscriptions;
-	private final IdentityApi identityApi;
-	private final EventApi eventApi;
-	private final MeasurementApi measurementApi;
-	private final MicroserviceOperationListenerService operationListenerService;
-	private final MicroserviceConfigurationService configService;
+    private static final Logger LOG = LoggerFactory.getLogger(MicroserviceRepresentationService.class);
 
-	@Value("${application.name}")
-	protected String applicationName;
+    private static final String MICROSERVICE_TYPE = "template_Microservice";
+    private static final String EVENT_TYPE = "service_monitoring";
+    private final InventoryApi inventory;
+    private final MicroserviceSubscriptionsService subscriptions;
+    private final IdentityApi identityApi;
+    private final EventApi eventApi;
+    private final MeasurementApi measurementApi;
+    private final MicroserviceOperationListenerService operationListenerService;
+    private final MicroserviceConfigurationService configService;
 
-	@Value("${microservice.version}")
-	protected String applicationVersion;
+    @Value("${application.name}")
+    protected String applicationName;
 
-	@Value("${c8y.version}")
-	protected String c8yVersion;
+    @Value("${microservice.version}")
+    protected String applicationVersion;
 
-	private final Map<String, ManagedObjectRepresentation> agentRepresentations = new ConcurrentHashMap<>();
+    @Value("${c8y.version}")
+    protected String c8yVersion;
 
-	@Autowired
-	public MicroserviceRepresentationService(InventoryApi inventory, MicroserviceSubscriptionsService subscriptions,
-			IdentityApi identityApi, EventApi eventApi, MeasurementApi measurementApi,
-			MicroserviceOperationListenerService operationListenerService,
-			MicroserviceConfigurationService configService) {
-		this.inventory = inventory;
-		this.subscriptions = subscriptions;
-		this.identityApi = identityApi;
-		this.eventApi = eventApi;
-		this.measurementApi = measurementApi;
-		this.operationListenerService = operationListenerService;
-		this.configService = configService;
-	}
+    private final Map<String, ManagedObjectRepresentation> agentRepresentations = new ConcurrentHashMap<>();
 
-	/**
-	 * Register microservice as an agent for subscribed tenant only.
-	 *
-	 * @param event
-	 */
-	@EventListener
-	private void onSubscriptionEvent(final MicroserviceSubscriptionAddedEvent event) {
-		String subscriptTenant = event.getCredentials().getTenant();
+    public MicroserviceRepresentationService(InventoryApi inventory, MicroserviceSubscriptionsService subscriptions,
+                                             IdentityApi identityApi, EventApi eventApi, MeasurementApi measurementApi,
+                                             MicroserviceOperationListenerService operationListenerService,
+                                             MicroserviceConfigurationService configService) {
+        this.inventory = inventory;
+        this.subscriptions = subscriptions;
+        this.identityApi = identityApi;
+        this.eventApi = eventApi;
+        this.measurementApi = measurementApi;
+        this.operationListenerService = operationListenerService;
+        this.configService = configService;
+    }
 
-		subscriptions.runForTenant(subscriptTenant, new Runnable() {
+    /**
+     * Register microservice as an agent for subscribed tenant only.
+     *
+     * @param event
+     */
+    @EventListener
+    private void onSubscriptionEvent(final MicroserviceSubscriptionAddedEvent event) {
+        String subscriptTenant = event.getCredentials().getTenant();
 
-			@Override
-			public void run() {
-				ManagedObjectRepresentation serviceRepresentation = findOrCreateSource(subscriptTenant);
-				long id = agentRepresentations.get(subscriptTenant) != null
-						? agentRepresentations.get(subscriptTenant).getId().getLong()
-						: 0L;
-				createEvent(serviceRepresentation, EVENT_TYPE,
-						"Microservice representation created or updated (onSubsription)!",
-						"Tenant: " + subscriptTenant + " ApplicationId: " + id);
-			}
-		});
-	}
+        subscriptions.runForTenant(subscriptTenant, new Runnable() {
 
-	/**
-	 * Find or create managed object for this microservice.
-	 *
-	 * @param tenant
-	 * @return
-	 */
-	private ManagedObjectRepresentation findOrCreateSource(final String tenant) {
-		Optional<GId> gId = findIdentity(MICROSERVICE_TYPE, applicationName);
-		ManagedObjectRepresentation microserviceRepresentation = null;
-		if (gId.isPresent()) {
-			LOG.info("Microservice representation found: " + gId.get().getValue());
-			microserviceRepresentation = findManagedObjectById(tenant, gId.get());
-		} else {
-			LOG.info("Microservice representation not found. Create");
-			microserviceRepresentation = createManagedObject(MICROSERVICE_TYPE, applicationName);
-			createIdentity(microserviceRepresentation.getId(), MICROSERVICE_TYPE, applicationName);
-		}
+            @Override
+            public void run() {
+                ManagedObjectRepresentation serviceRepresentation = findOrCreateSource(subscriptTenant);
+                long id = agentRepresentations.get(subscriptTenant) != null
+                        ? agentRepresentations.get(subscriptTenant).getId().getLong()
+                        : 0L;
+                createEvent(serviceRepresentation, EVENT_TYPE,
+                        "Microservice representation created or updated (onSubsription)!",
+                        "Tenant: " + subscriptTenant + " ApplicationId: " + id);
+            }
+        });
+    }
 
-		configService.setMicroserviceAgentRepresentation(microserviceRepresentation.getId());
-		operationListenerService.registerForOperations(microserviceRepresentation.getId());
-		agentRepresentations.put(tenant, microserviceRepresentation);
-		return updateManagedObject(microserviceRepresentation);
-	}
+    /**
+     * Find or create managed object for this microservice.
+     *
+     * @param tenant
+     * @return
+     */
+    private ManagedObjectRepresentation findOrCreateSource(final String tenant) {
+        Optional<GId> gId = findIdentity(MICROSERVICE_TYPE, applicationName);
+        ManagedObjectRepresentation microserviceRepresentation = null;
+        if (gId.isPresent()) {
+            LOG.info("Microservice representation found: " + gId.get().getValue());
+            microserviceRepresentation = findManagedObjectById(tenant, gId.get());
+        } else {
+            LOG.info("Microservice representation not found. Create");
+            microserviceRepresentation = createManagedObject(MICROSERVICE_TYPE, applicationName);
+            createIdentity(microserviceRepresentation.getId(), MICROSERVICE_TYPE, applicationName);
+        }
 
-	private ExternalIDRepresentation createIdentity(final GId sourceId, final String type, final String identifier) {
-		final ManagedObjectRepresentation source = new ManagedObjectRepresentation();
-		source.setId(sourceId);
+        configService.setMicroserviceAgentRepresentation(microserviceRepresentation.getId());
+        operationListenerService.registerForOperations(microserviceRepresentation.getId());
+        agentRepresentations.put(tenant, microserviceRepresentation);
+        return updateManagedObject(microserviceRepresentation);
+    }
 
-		final ExternalIDRepresentation externalId = new ExternalIDRepresentation();
-		externalId.setManagedObject(source);
-		externalId.setExternalId(identifier);
-		externalId.setType(type);
-		return identityApi.create(externalId);
-	}
+    private ExternalIDRepresentation createIdentity(final GId sourceId, final String type, final String identifier) {
+        final ManagedObjectRepresentation source = new ManagedObjectRepresentation();
+        source.setId(sourceId);
 
-	private Optional<GId> findIdentity(final String type, final String identifier) {
-		try {
-			final ExternalIDRepresentation externalId = identityApi.getExternalId(new ID(type, identifier));
-			return Optional.of(externalId.getManagedObject().getId());
-		} catch (final SDKException ex) {
-			if (ex.getHttpStatus() != 404) {
-				throw ex;
-			}
-		}
-		return Optional.absent();
-	}
+        final ExternalIDRepresentation externalId = new ExternalIDRepresentation();
+        externalId.setManagedObject(source);
+        externalId.setExternalId(identifier);
+        externalId.setType(type);
+        return identityApi.create(externalId);
+    }
 
-	private ManagedObjectRepresentation findManagedObjectById(final String tenant, final GId id) {
-		return subscriptions.callForTenant(tenant, new Callable<ManagedObjectRepresentation>() {
+    private Optional<GId> findIdentity(final String type, final String identifier) {
+        try {
+            final ExternalIDRepresentation externalId = identityApi.getExternalId(new ID(type, identifier));
+            return Optional.of(externalId.getManagedObject().getId());
+        } catch (final SDKException ex) {
+            if (ex.getHttpStatus() != 404) {
+                throw ex;
+            }
+        }
+        return Optional.absent();
+    }
 
-			@Override
-			public ManagedObjectRepresentation call() throws Exception {
-				return inventory.get(id);
-			}
-		});
-	}
+    private ManagedObjectRepresentation findManagedObjectById(final String tenant, final GId id) {
+        return subscriptions.callForTenant(tenant, new Callable<ManagedObjectRepresentation>() {
 
-	private ManagedObjectRepresentation createManagedObject(final String type, final String name) {
-		final ManagedObjectRepresentation managedObject = new ManagedObjectRepresentation();
-		managedObject.setType(type);
-		managedObject.setName(name);
-		managedObject.set(new Agent());
-		managedObject.set(new IsDevice());
+            @Override
+            public ManagedObjectRepresentation call() throws Exception {
+                return inventory.get(id);
+            }
+        });
+    }
 
-		managedObject.set(createSoftwareListEntry());
-		managedObject.set(configService.createConfigurationByProperties());
+    private ManagedObjectRepresentation createManagedObject(final String type, final String name) {
+        final ManagedObjectRepresentation managedObject = new ManagedObjectRepresentation();
+        managedObject.setType(type);
+        managedObject.setName(name);
+        managedObject.set(new Agent());
+        managedObject.set(new IsDevice());
 
-		SupportedOperations so = new SupportedOperations();
-		so.add("c8y_Configuration");
-		managedObject.set(so);
+        managedObject.set(createSoftwareListEntry());
+        managedObject.set(configService.createConfigurationByProperties());
 
-		return inventory.create(managedObject);
-	}
+        SupportedOperations so = new SupportedOperations();
+        so.add("c8y_Configuration");
+        managedObject.set(so);
 
-	private ManagedObjectRepresentation updateManagedObject(ManagedObjectRepresentation currentManagedObject) {
-		ManagedObjectRepresentation managedObject = new ManagedObjectRepresentation();
-		managedObject.setId(currentManagedObject.getId());
+        return inventory.create(managedObject);
+    }
 
-		managedObject.set(createSoftwareListEntry());
+    private ManagedObjectRepresentation updateManagedObject(ManagedObjectRepresentation currentManagedObject) {
+        ManagedObjectRepresentation managedObject = new ManagedObjectRepresentation();
+        managedObject.setId(currentManagedObject.getId());
 
-		configService.loadConfiguration();
-		managedObject.set(configService.createConfigurationByProperties());
+        managedObject.set(createSoftwareListEntry());
 
-		return inventory.update(managedObject);
-	}
+        configService.loadConfiguration();
+        managedObject.set(configService.createConfigurationByProperties());
 
-	private SoftwareList createSoftwareListEntry() {
-		SoftwareListEntry softwareEntryApp = new SoftwareListEntry();
-		softwareEntryApp.setVersion(applicationVersion);
-		softwareEntryApp.setName(applicationName);
+        return inventory.update(managedObject);
+    }
 
-		SoftwareListEntry softwareEntrySDK = new SoftwareListEntry();
-		softwareEntrySDK.setVersion(c8yVersion);
-		softwareEntrySDK.setName("c8y_SDK_version");
+    private SoftwareList createSoftwareListEntry() {
+        SoftwareListEntry softwareEntryApp = new SoftwareListEntry();
+        softwareEntryApp.setVersion(applicationVersion);
+        softwareEntryApp.setName(applicationName);
 
-		SoftwareList softwareList = new SoftwareList();
-		softwareList.add(softwareEntryApp);
-		softwareList.add(softwareEntrySDK);
-		return softwareList;
-	}
+        SoftwareListEntry softwareEntrySDK = new SoftwareListEntry();
+        softwareEntrySDK.setVersion(c8yVersion);
+        softwareEntrySDK.setName("c8y_SDK_version");
 
-	private void createEvent(ManagedObjectRepresentation source, String type, String text, Object details) {
-		EventRepresentation event = new EventRepresentation();
-		event.setText(text);
-		event.setType(type);
-		event.setSource(source);
-		event.setDateTime(new DateTime());
-		event.set(details, "nx_details");
-		eventApi.create(event);
-	}
+        SoftwareList softwareList = new SoftwareList();
+        softwareList.add(softwareEntryApp);
+        softwareList.add(softwareEntrySDK);
+        return softwareList;
+    }
+
+    private void createEvent(ManagedObjectRepresentation source, String type, String text, Object details) {
+        EventRepresentation event = new EventRepresentation();
+        event.setText(text);
+        event.setType(type);
+        event.setSource(source);
+        event.setDateTime(new DateTime());
+        event.set(details, "nx_details");
+        eventApi.create(event);
+    }
 }
