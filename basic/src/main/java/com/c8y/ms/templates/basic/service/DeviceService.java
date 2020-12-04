@@ -3,16 +3,14 @@ package com.c8y.ms.templates.basic.service;
 import com.cumulocity.model.idtype.GId;
 import com.cumulocity.rest.pagination.RestPageRequest;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
-import com.cumulocity.sdk.client.QueryParam;
 import com.cumulocity.sdk.client.SDKException;
 import com.cumulocity.sdk.client.inventory.InventoryApi;
 import com.cumulocity.sdk.client.inventory.InventoryFilter;
 import com.cumulocity.sdk.client.inventory.ManagedObjectCollection;
-import com.google.common.collect.Lists;
+import com.google.common.base.Optional;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,13 +22,13 @@ import java.util.List;
  * @author APES
  */
 @Service
-public class C8YDeviceService {
+public class DeviceService {
 
-    private static final Logger LOG = LoggerFactory.getLogger(C8YDeviceService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DeviceService.class);
 
     private InventoryApi inventoryApi;
 
-    public C8YDeviceService(InventoryApi inventoryApi) {
+    public DeviceService(InventoryApi inventoryApi) {
         this.inventoryApi = inventoryApi;
     }
 
@@ -42,7 +40,7 @@ public class C8YDeviceService {
             inventoryFilter.byFragmentType("c8y_IsDevice");
 
             ManagedObjectCollection managedObjectsByFilter = inventoryApi.getManagedObjectsByFilter(inventoryFilter);
-            List<ManagedObjectRepresentation> allObjects = Lists.newArrayList(managedObjectsByFilter.get(RestPageRequest.MAX_PAGE_SIZE).allPages());
+            List<ManagedObjectRepresentation> allObjects = managedObjectsByFilter.get(RestPageRequest.MAX_PAGE_SIZE).getManagedObjects();
 
             for (ManagedObjectRepresentation managedObjectRepresentation : allObjects) {
                 allDeviceNames.add(managedObjectRepresentation.getName());
@@ -54,20 +52,21 @@ public class C8YDeviceService {
         return allDeviceNames;
     }
 
-    public ManagedObjectRepresentation getDeviceRepresentation(final String deviceId) {
-        ManagedObjectRepresentation deviceRepresentation = new ManagedObjectRepresentation();
-
+    public Optional<ManagedObjectRepresentation> getDeviceRepresentation(final String deviceId) {
         if (StringUtils.isEmpty(deviceId)) {
-            return deviceRepresentation;
+            return Optional.absent();
         }
 
         try {
+            ManagedObjectRepresentation deviceRepresentation = new ManagedObjectRepresentation();
             deviceRepresentation = inventoryApi.get(new GId(deviceId));
+
+            return Optional.of(deviceRepresentation);
         } catch (SDKException exception) {
             LOG.error("Error occurred while loading device representation", exception);
         }
 
-        return deviceRepresentation;
+        return Optional.absent();
     }
 
 }

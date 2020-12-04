@@ -2,15 +2,14 @@ package com.c8y.ms.templates.basic.controller;
 
 import java.util.List;
 
-import com.cumulocity.model.idtype.GId;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.common.base.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.c8y.ms.templates.basic.service.C8YDeviceService;
+import com.c8y.ms.templates.basic.service.DeviceService;
 
 /**
  * This is an example controller. This should be removed for your real project!
@@ -21,9 +20,9 @@ import com.c8y.ms.templates.basic.service.C8YDeviceService;
 @RequestMapping("/devices")
 public class DeviceController {
 
-    private C8YDeviceService deviceService;
+    private DeviceService deviceService;
 
-    public DeviceController(C8YDeviceService deviceService) {
+    public DeviceController(DeviceService deviceService) {
         this.deviceService = deviceService;
     }
 
@@ -35,7 +34,12 @@ public class DeviceController {
 
     @GetMapping(path = "/{deviceId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> getDeviceRepresentationById(final @PathVariable String deviceId) {
-        final ManagedObjectRepresentation deviceRepresentation = deviceService.getDeviceRepresentation(deviceId);
-        return new ResponseEntity<>(deviceRepresentation.toJSON(), HttpStatus.OK);
+        final Optional<ManagedObjectRepresentation> deviceRepresentationOptional = deviceService.getDeviceRepresentation(deviceId);
+
+        if (!deviceRepresentationOptional.isPresent()) {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(deviceRepresentationOptional.get().toJSON(), HttpStatus.OK);
     }
 }
