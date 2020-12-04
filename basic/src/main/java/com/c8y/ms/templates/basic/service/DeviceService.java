@@ -1,5 +1,8 @@
 package com.c8y.ms.templates.basic.service;
 
+import c8y.IsDevice;
+import com.c8y.ms.templates.basic.model.Device;
+import com.cumulocity.model.Agent;
 import com.cumulocity.model.idtype.GId;
 import com.cumulocity.rest.pagination.RestPageRequest;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
@@ -32,6 +35,13 @@ public class DeviceService {
         this.inventoryApi = inventoryApi;
     }
 
+    /**
+     * Query a list of devices from the Inventory by using the InventoryFilter and
+     * fragmentType filter "c8y_IsDevice". In order to get the max page size use
+     * RestPageRequest.MAX_PAGE_SIZE on the list.
+     *
+     * @return
+     */
     public List<String> getAllDeviceNames() {
         List<String> allDeviceNames = new ArrayList<>();
 
@@ -68,4 +78,21 @@ public class DeviceService {
         return Optional.absent();
     }
 
+    public Optional<ManagedObjectRepresentation> createDevice(final Device device) {
+        final ManagedObjectRepresentation managedObjectRepresentation = new ManagedObjectRepresentation();
+        managedObjectRepresentation.setName(device.getName());
+        managedObjectRepresentation.setType(device.getType());
+        managedObjectRepresentation.set(new IsDevice());
+        managedObjectRepresentation.set(new Agent());
+
+        try {
+            final ManagedObjectRepresentation response = inventoryApi.create(managedObjectRepresentation);
+
+            return Optional.of(response);
+        } catch (SDKException exception) {
+            LOG.error("Error occurred while create a new device", exception);
+        }
+
+        return Optional.absent();
+    }
 }

@@ -1,16 +1,15 @@
 package com.c8y.ms.templates.basic.controller;
 
+import com.c8y.ms.templates.basic.model.Device;
 import com.c8y.ms.templates.basic.service.DeviceService;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
 import com.google.common.base.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -43,5 +42,16 @@ public class DeviceController {
         }
 
         return new ResponseEntity<>(deviceRepresentationOptional.get().toJSON(), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> createNewDevice(final @RequestBody @Valid Device device) {
+        final Optional<ManagedObjectRepresentation> deviceCreated = deviceService.createDevice(device);
+
+        if (!deviceCreated.isPresent()) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(deviceCreated.get().toJSON(), HttpStatus.OK);
     }
 }
