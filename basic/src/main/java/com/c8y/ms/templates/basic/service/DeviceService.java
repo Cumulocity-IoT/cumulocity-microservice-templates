@@ -40,7 +40,7 @@ public class DeviceService {
      * fragmentType filter "c8y_IsDevice". In order to get the max page size use
      * RestPageRequest.MAX_PAGE_SIZE on the list.
      *
-     * @return
+     * @return List<String>, a list of existing devices and their names.
      */
     public List<String> getAllDeviceNames() {
         List<String> allDeviceNames = new ArrayList<>();
@@ -78,6 +78,14 @@ public class DeviceService {
         return Optional.absent();
     }
 
+    /**
+     * Create a new device in Cumulocity. This device will have the name and type coming from the initial request.
+     * In addition, by using the device-capability-model library the managedObject will be defined as a device
+     * (IsDevice.class) and agent (Agent.class).
+     *
+     * @param device provides the name and the type for the device, which should be created
+     * @return ManagedObjectRepresentation of the newly created device
+     */
     public Optional<ManagedObjectRepresentation> createDevice(final Device device) {
         final ManagedObjectRepresentation managedObjectRepresentation = new ManagedObjectRepresentation();
         managedObjectRepresentation.setName(device.getName());
