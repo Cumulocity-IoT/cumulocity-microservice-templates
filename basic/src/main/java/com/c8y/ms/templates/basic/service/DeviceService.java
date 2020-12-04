@@ -2,6 +2,9 @@ package com.c8y.ms.templates.basic.service;
 
 import c8y.IsDevice;
 import com.c8y.ms.templates.basic.model.Device;
+import com.cumulocity.microservice.context.ContextService;
+import com.cumulocity.microservice.context.credentials.MicroserviceCredentials;
+import com.cumulocity.microservice.subscription.service.MicroserviceSubscriptionsService;
 import com.cumulocity.model.Agent;
 import com.cumulocity.model.idtype.GId;
 import com.cumulocity.rest.pagination.RestPageRequest;
@@ -11,9 +14,11 @@ import com.cumulocity.sdk.client.inventory.InventoryApi;
 import com.cumulocity.sdk.client.inventory.InventoryFilter;
 import com.cumulocity.sdk.client.inventory.ManagedObjectCollection;
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,8 +36,15 @@ public class DeviceService {
 
     private final InventoryApi inventoryApi;
 
-    public DeviceService(InventoryApi inventoryApi) {
+    private final ContextService<MicroserviceCredentials> contextService;
+
+    private final MicroserviceSubscriptionsService subscriptions;
+
+    public DeviceService(InventoryApi inventoryApi, ContextService<MicroserviceCredentials> contextService,
+                         MicroserviceSubscriptionsService subscriptions) {
         this.inventoryApi = inventoryApi;
+        this.contextService = contextService;
+        this.subscriptions = subscriptions;
     }
 
     /**
@@ -47,10 +59,10 @@ public class DeviceService {
 
         try {
             InventoryFilter inventoryFilter = new InventoryFilter();
-            inventoryFilter.byFragmentType("c8y_IsDevice");
+            inventoryFilter.byFragmentType(IsDevice.class);
 
             ManagedObjectCollection managedObjectsByFilter = inventoryApi.getManagedObjectsByFilter(inventoryFilter);
-            List<ManagedObjectRepresentation> allObjects = managedObjectsByFilter.get(RestPageRequest.MAX_PAGE_SIZE).getManagedObjects();
+            List<ManagedObjectRepresentation> allObjects = Lists.newArrayList(managedObjectsByFilter.get(RestPageRequest.MAX_PAGE_SIZE).allPages());
 
             for (ManagedObjectRepresentation managedObjectRepresentation : allObjects) {
                 allDeviceNames.add(managedObjectRepresentation.getName());
@@ -102,5 +114,19 @@ public class DeviceService {
         }
 
         return Optional.absent();
+    }
+
+    @Scheduled(fixedRate = 10000)
+    public void printDeviceNameFirstFoundToConsole() {
+        subscriptions.runForEachTenant(() -> {
+            final List<String> deviceNames = getAllDeviceNames();
+
+            if (deviceNames == null || deviceNames.isEmpty()) {
+                LOG.info("Device couldn't be found!");
+                return;
+            }
+
+            LOG.info("Found device: {}", deviceNames.get(0));
+        });
     }
 }
