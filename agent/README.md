@@ -95,7 +95,7 @@ Example:
 ```
 GET http://localhost:8080/api/config/ms.config.property.list
 
-REQUEST: A,B,C,D,E,F
+RESPONSE: A,B,C,D,E,F
 ```
 
 
