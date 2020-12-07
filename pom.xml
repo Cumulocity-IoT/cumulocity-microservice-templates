@@ -26,6 +26,7 @@
 		<module>agent</module>
 		<module>secret</module>
 		<module>ehcache</module>
+        <module>realtime</module>
     </modules>
     
     <dependencyManagement>
