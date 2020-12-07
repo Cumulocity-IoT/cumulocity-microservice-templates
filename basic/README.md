@@ -38,11 +38,11 @@ The MeasurementController defines one endpoint:
 
 2. Create a new Microservice application on your Cumulocity IoT tenant
 
-    POST _https://{base-url}/application/applications_
+    `POST https://{base-url}/application/applications`
     
     Request body:
     
-    ```javascript
+    ```json
     {
         "key": "templates-basic",
         "name": "templates-basic",
@@ -65,11 +65,11 @@ The MeasurementController defines one endpoint:
 
 4. Acquire microservice bootstrap credentials
 
-    GET _https://{base-url}/application/applications/{applicationId}/bootstrapUser_
+    `GET https://{base-url}/application/applications/{applicationId}/bootstrapUser`
     
     Response body:
     
-    ```javascript
+    ```json
     {
         "password": "************************",
         "name": "servicebootstrap_templates-basic",
@@ -84,7 +84,7 @@ The MeasurementController defines one endpoint:
 
 6. Start microservice with spring profile "dev"
 
-    java -Dspring.profiles.active=dev -jar cumulocity-microservice-templates-basic-0.0.1-SNAPSHOT.jar
+    `java -Dspring.profiles.active=dev -jar cumulocity-microservice-templates-basic-0.0.1-SNAPSHOT.jar`
 
 ## Disclaimer
 
