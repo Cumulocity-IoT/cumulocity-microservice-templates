@@ -3,12 +3,32 @@
 ## Summary
 This Microservice template/example is a really basic project, which showcases how you can create REST endpoints within your Microservice and how you can schedule tasks.
 
-There are multiple REST endpoints created by this Microservice. These are defined in the classes DeviceController.class and MeasurementController.class, which are both marked as @RestController. Both controllers define individual APIs and paths, e.g. to access any of endpoints from the DeviceController you have to call /devices followed by the path you want to query. 
+There are multiple REST endpoints created by this Microservice. These are defined in the classes `DeviceController.class` and `MeasurementController.class`, which are both marked as `@RestController`. Both controllers define individual APIs and paths, e.g. to access any of endpoints from the DeviceController you have to call `/devices` followed by the path you want to query. 
 
-The DeviceContoller defines three endpoints in total:
-- GET /devices/names -> will return a list of device names
-- GET /devices/{deviceId} -> replace the deviceId placeholder with any existing device id and the endpoint will return the managedObject for the corresponding device
-- POST /devices -> lets you create a new device in Cumulocity. The request expects a JSON object containing the name and type of the device you want to create.
+The DeviceController defines three endpoints in total:
+- `GET /devices/names` 
+
+    will return a list of device names
+    
+- `GET /devices/{deviceId}` 
+
+    replace the deviceId placeholder with any existing device id and the endpoint will return the managedObject for the corresponding device.
+
+- `POST /devices` 
+    
+    lets you create a new device in Cumulocity. The request expects a JSON object containing the name and type of the device you want to create.
+    
+    ```json
+    {
+        "name" : "my device name",
+        "type" : "device_type"
+    }
+    ```
+  
+The MeasurementController defines one endpoint:
+- `GET /measurements/latest/{deviceId}`
+
+    replacing the device id with an existing device id will return the latest measurement for the corresponding device as a JSON object.
 
 ## How to run locally:
 
