@@ -1,5 +1,6 @@
 package com.c8y.ms.templates.realtime.controller;
 
+import com.c8y.ms.templates.realtime.service.OperationService;
 import com.c8y.ms.templates.realtime.subscriber.MeasurementNotification;
 import com.c8y.ms.templates.realtime.subscriber.MeasurementRealtimeNotificationSubscriber;
 import com.cumulocity.microservice.context.ContextService;
@@ -46,6 +47,9 @@ public class NotificationController {
     @Autowired
     private MicroserviceSubscriptionsService subscriptions;
 
+    @Autowired
+    private OperationService operationService;
+
     private Subscription<String> subscription;
 
     private Subscription<String> measurementSubscription;
@@ -83,19 +87,18 @@ public class NotificationController {
      */
     private void registerForDeviceUpdates() {
         InventoryRealtimeDeleteAwareNotificationsSubscriber subscriber = new InventoryRealtimeDeleteAwareNotificationsSubscriber(platform);
-        this.subscription = subscriber.subscribe(deviceId,
-                new SubscriptionListener<>() {
-                    @Override
-                    public void onNotification(Subscription<String> arg0, ManagedObjectDeleteAwareNotification arg1) {
-                        final ManagedObjectRepresentation mo = jsonParser.parse(ManagedObjectRepresentation.class, json.forValue(arg1.getData()));
-                        LOG.info("on device update received: {}", mo.toJSON());
-                    }
+        this.subscription = subscriber.subscribe(deviceId, new SubscriptionListener<>() {
+            @Override
+            public void onNotification(Subscription<String> arg0, ManagedObjectDeleteAwareNotification arg1) {
+                final ManagedObjectRepresentation mo = jsonParser.parse(ManagedObjectRepresentation.class, json.forValue(arg1.getData()));
+                LOG.info("on device update received: {}", mo.toJSON());
+            }
 
-                    @Override
-                    public void onError(Subscription<String> arg0, Throwable arg1) {
-                        LOG.error("An error occurred for the managedObject subscription", arg1);
-                    }
-                });
+            @Override
+            public void onError(Subscription<String> arg0, Throwable arg1) {
+                LOG.error("An error occurred for the managedObject subscription", arg1);
+            }
+        });
     }
 
     /**
@@ -109,27 +112,49 @@ public class NotificationController {
      */
     private void registerForMeasurementUpdates() {
         final MeasurementRealtimeNotificationSubscriber subscriber = new MeasurementRealtimeNotificationSubscriber(platform);
-        measurementSubscription = subscriber.subscribe(deviceId,
-                new SubscriptionListener<>() {
-                    @Override
-                    public void onNotification(Subscription<String> arg0, MeasurementNotification notification) {
-                        final MeasurementRepresentation measurement = jsonParser.parse(MeasurementRepresentation.class, json.forValue(notification.getData()));
-                        LOG.info("new measurement received: {}", measurement.toJSON());
-                    }
+        measurementSubscription = subscriber.subscribe(deviceId, new SubscriptionListener<>() {
+            @Override
+            public void onNotification(Subscription<String> arg0, MeasurementNotification notification) {
+                final MeasurementRepresentation measurement = jsonParser.parse(MeasurementRepresentation.class, json.forValue(notification.getData()));
+                LOG.info("new measurement received: {}", measurement.toJSON());
+            }
 
-                    @Override
-                    public void onError(Subscription<String> arg0, Throwable arg1) {
-                        LOG.error("An error occurred for the measurement subscription", arg1);
-                    }
-                });
+            @Override
+            public void onError(Subscription<String> arg0, Throwable arg1) {
+                LOG.error("An error occurred for the measurement subscription", arg1);
+            }
+        });
     }
 
+    /**
+     * Listen to operations which are being sent for the device. Only operations for specified device id
+     * will be received.
+     */
     private void registerForOperations() {
         final OperationNotificationSubscriber subscriber = new OperationNotificationSubscriber(platform);
         operationSubscription = subscriber.subscribe(new GId(deviceId), new SubscriptionListener<>() {
             @Override
             public void onNotification(Subscription<GId> subscription, OperationRepresentation operationRepresentation) {
                 LOG.info("New operation received: {}", operationRepresentation.toJSON());
+
+                /*
+                    Realtime notification are received in a separate thread. Therefore, if for example an operation
+                    should be updated you need to provide the context for which tenant the update should be executed.
+                    In this case it's done by using the runWithinContext method of the ContextService<MicroserviceCredentials>
+                    class
+                 */
+                contextService.runWithinContext(microserviceCredentials, () -> {
+                    try {
+                        operationService.updateOperationToExecuting(operationRepresentation);
+
+                        // small delay to simulate an update of the status of the received operation from Executing to Successful
+                        Thread.sleep(2500);
+
+                        operationService.updateOperationToSuccessful(operationRepresentation);
+                    } catch (InterruptedException e) {
+                        LOG.error("An error occurred while processing the operation", e);
+                    }
+                });
             }
 
             @Override
