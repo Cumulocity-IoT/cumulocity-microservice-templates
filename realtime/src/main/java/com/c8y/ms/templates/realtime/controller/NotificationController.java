@@ -7,11 +7,14 @@ import com.cumulocity.microservice.context.credentials.MicroserviceCredentials;
 import com.cumulocity.microservice.subscription.model.MicroserviceSubscriptionAddedEvent;
 import com.cumulocity.microservice.subscription.service.MicroserviceSubscriptionsService;
 import com.cumulocity.model.JSONBase;
+import com.cumulocity.model.idtype.GId;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
 import com.cumulocity.rest.representation.measurement.MeasurementRepresentation;
+import com.cumulocity.rest.representation.operation.OperationRepresentation;
 import com.cumulocity.sdk.client.PlatformImpl;
 import com.cumulocity.sdk.client.cep.notification.InventoryRealtimeDeleteAwareNotificationsSubscriber;
 import com.cumulocity.sdk.client.cep.notification.ManagedObjectDeleteAwareNotification;
+import com.cumulocity.sdk.client.devicecontrol.notification.OperationNotificationSubscriber;
 import com.cumulocity.sdk.client.notification.Subscription;
 import com.cumulocity.sdk.client.notification.SubscriptionListener;
 import org.slf4j.Logger;
@@ -47,6 +50,8 @@ public class NotificationController {
 
     private Subscription<String> measurementSubscription;
 
+    private Subscription<GId> operationSubscription;
+
     private final JSONParser jsonParser = JSONBase.getJSONParser();
 
     private final JSON json = JSON.defaultJSON();
@@ -66,6 +71,7 @@ public class NotificationController {
         subscriptions.runForTenant(event.getCredentials().getTenant(), () -> {
             registerForDeviceUpdates();
             registerForMeasurementUpdates();
+            registerForOperations();
         });
     }
 
@@ -116,5 +122,20 @@ public class NotificationController {
                         LOG.error("An error occurred for the measurement subscription", arg1);
                     }
                 });
+    }
+
+    private void registerForOperations() {
+        final OperationNotificationSubscriber subscriber = new OperationNotificationSubscriber(platform);
+        operationSubscription = subscriber.subscribe(new GId(deviceId), new SubscriptionListener<>() {
+            @Override
+            public void onNotification(Subscription<GId> subscription, OperationRepresentation operationRepresentation) {
+                LOG.info("New operation received: {}", operationRepresentation.toJSON());
+            }
+
+            @Override
+            public void onError(Subscription<GId> subscription, Throwable throwable) {
+                LOG.error("An error occurred while listening for operations: ", throwable);
+            }
+        });
     }
 }
