@@ -1,8 +1,73 @@
-# templates-basic
+# templates-realtime
 
 ## Summary
 
-TBD
+This Microservice demonstrates how listeners for Cumulocity realtime notifications can be implemented. Realtime notifications enable the user to listen to updates for certain Cumulocity domain objects such as alarms, operations, measurements or managedObjects.
+
+This template showcases how to listen for:
+- updates on a specific device
+- new measurements created for a specific device
+- new operations created for a specific device
+
+In order for this template to work you will need to have a device registered/created in your Cumulocity tenant. It doesn't need to be a physical device it can also be a device, which has been created manually using the REST api. In the `application-dev.properties` file you have to set the device id (`device.id`) for which you want to listen for realtime notifications. If you have specified the device id and start the Microservice you will see a similar output on the console, indicating that the Microservice could properly subscribe for realtime notifications:
+```text
+Successfully subscribed: /managedobjects/<your_device_id>
+Successfully subscribed: /measurements/<your_device_id>
+Successfully subscribed: /<your_device_id>
+```
+
+To test the different types of realtime notifications, it's recommended to use a REST client (e.g. Postman) to send sample requests.
+- Example to update the device representation to trigger a realtime notification for the device:
+
+    `PUT {{url}}/inventory/managedObjects/{{deviceId}}`
+    
+    ```json
+    {
+        "c8y_Position": {
+            "alt": 67,
+            "lng": 6.95173,
+            "lat": 51.151977 
+        }
+    }
+    ```
+  
+    this request will update the geolocation for your device and will trigger a realtime notification.
+    
+- Example to receive a notification once a measurement has been created for your device:
+
+    `POST {{url}}/measurement/measurements`
+    
+    ```json
+    {
+        "c8y_TemperatureMeasurement": {
+            "T": { 
+                "value": 25,
+                "unit": "C" 
+            }
+        },
+        "time": "{{timestamp}}", 
+        "source": {
+            "id":"{{deviceId}}" 
+        }, 
+        "type": "c8y_TemperatureMeasurement"
+    }
+    ``` 
+  
+    This request will create a measurement for your device. The Microservice receives the incoming measurement as a realtime notification.
+    
+- Example to receive an operation:
+
+    `POST {{url}}/devicecontrol/operations/`
+    
+    ```json
+    {
+        "deviceId" : "{{deviceId}}",
+        "c8y_Restart" : {},
+        "description": "Restart device"
+    }
+    ```
+
+    This request will create an operation for your device. The Microservice receives this operation and will update the status from `PENDING` to `EXECUTING` to `SUCCESSFUL`.
 
 ## How to run locally:
 
@@ -18,16 +83,18 @@ TBD
     
     ```json
     {
-        "key": "templates-basic",
-        "name": "templates-basic",
-        "contextPath": "templates-basic",
+        "key": "templates-realtime",
+        "name": "templates-realtime",
+        "contextPath": "templates-realtime",
         "type": "MICROSERVICE",
         "manifest":{},	
         "requiredRoles": [
             "ROLE_INVENTORY_READ",
             "ROLE_INVENTORY_CREATE",
             "ROLE_INVENTORY_ADMIN",
-            "ROLE_MEASUREMENT_READ"
+            "ROLE_MEASUREMENT_READ",
+            "ROLE_DEVICE_CONTROL_READ",
+            "ROLE_DEVICE_CONTROL_ADMIN"
         ],
         "roles": []
     }
@@ -46,7 +113,7 @@ TBD
     ```json
     {
         "password": "************************",
-        "name": "servicebootstrap_templates-basic",
+        "name": "servicebootstrap_templates-realtime",
         "tenant": "<your tenant>"
     }
     ```
@@ -58,7 +125,7 @@ TBD
 
 6. Start microservice with spring profile "dev"
 
-    `java -Dspring.profiles.active=dev -jar cumulocity-microservice-templates-basic-0.0.1-SNAPSHOT.jar`
+    `java -Dspring.profiles.active=dev -jar cumulocity-microservice-realtime-basic-0.0.1-SNAPSHOT.jar`
 
 ## Disclaimer
 
