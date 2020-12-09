@@ -132,11 +132,11 @@ public class DeviceService {
             final List<String> deviceNames = getAllDeviceNames();
 
             if (deviceNames == null || deviceNames.isEmpty()) {
-                LOG.info("Device couldn't be found!");
+                LOG.info("Devices couldn't be found!");
                 return;
             }
 
-            LOG.info("Found device: {}", deviceNames.get(0));
+            LOG.info("Found devices: {}", deviceNames);
         });
     }
 }
