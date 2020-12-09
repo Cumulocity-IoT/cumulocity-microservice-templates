@@ -116,7 +116,17 @@ public class DeviceService {
         return Optional.absent();
     }
 
-    @Scheduled(fixedRate = 10000)
+    /**
+     * A simple scheduler which is configured using the annotation @Scheduled. Using the parameters fixedDelayString and
+     * initialDelayString you can specify in what interval the scheduler should be executed and the initial delay. The parameters
+     * can be updated within the application.properties.
+     * <p>
+     * The scheduler is running in a separate background thread. To access Cumulocity in such a background thread you must
+     * provide the correct context/tenant for which a request should be executed. In this example subscriptions.runForEachTenant()
+     * is being used which will run the request for all currently subscribed tenants. Another possibility is to use
+     * ContextService<MicroserviceCredentials> and provide the context manually by running contextService.runWithinContext().
+     */
+    @Scheduled(fixedDelayString = "${scheduled.delay.millis:60000}", initialDelayString = "${scheduled.delay.millis:1000}")
     public void printDeviceNameFirstFoundToConsole() {
         subscriptions.runForEachTenant(() -> {
             final List<String> deviceNames = getAllDeviceNames();

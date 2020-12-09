@@ -30,6 +30,8 @@ The MeasurementController defines one endpoint:
 
     replacing the device id with an existing device id will return the latest measurement for the corresponding device as a JSON object.
 
+In addition to those REST endpoints, you can also find an example for a simple scheduler in `DeviceService.class`, which triggers a request to Cumulocity in a background thread. The scheduler runs continuously in a specified interval which can be configured in the application.properties using the parameters `scheduled.delay.millis` and `scheduled.delay.millis`.
+
 ## How to run locally:
 
 1. Build project
