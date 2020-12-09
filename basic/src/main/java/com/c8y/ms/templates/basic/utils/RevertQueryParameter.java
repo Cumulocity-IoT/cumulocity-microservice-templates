@@ -11,7 +11,12 @@ public class RevertQueryParameter extends QueryParam {
         }
     };
 
-    public RevertQueryParameter() {
+    private static final RevertQueryParameter INSTANCE = new RevertQueryParameter();
+
+    public static RevertQueryParameter getInstance() {
+        return INSTANCE;
+    }
+    private RevertQueryParameter() {
         super(REVERT_PARAM, "true");
     }
 }

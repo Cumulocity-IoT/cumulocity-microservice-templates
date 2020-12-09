@@ -48,7 +48,7 @@ public class MeasurementService {
 
         try {
             final List<MeasurementRepresentation> measurements = measurementApi.getMeasurementsByFilter(filter)
-                    .get(RestPageRequest.MAX_PAGE_SIZE, new RevertQueryParameter()).getMeasurements();
+                    .get(RestPageRequest.MAX_PAGE_SIZE, RevertQueryParameter.getInstance()).getMeasurements();
 
             if (measurements == null || measurements.isEmpty()) {
                 return Optional.absent();
