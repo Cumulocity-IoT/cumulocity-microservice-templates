@@ -1,19 +1,34 @@
 # cumulocity-microservice-templates
 
 ## Summary
-Collection of templates / examples to give the developer a starting point how common features can be solved by using Cumulocity [Microservice SDK for Java](https://cumulocity.com/guides/microservice-sdk/java/).
 
-## Collection
+Collection of templates / examples to give the developer a starting point how common features can be implemented in a Microservice by using Cumulocity's [Microservice SDK for Java](https://cumulocity.com/guides/microservice-sdk/java/).
 
-[basic](basic/README.md) (Simple Microservice which exposes REST API)
+## Templates & Examples
 
-[agent](agent/README.md) (Microservice which has an agent representation (managed object) to retrieve configuration, write events etc.)
+- [basic](basic) 
+    - how to communicate with Cumulocity's REST API
+    - how to implement REST endpoints, e.g. GET or POST
+    - how to implement a scheduler
+    - how to work with different contexts
 
-[ehcache](ehcache/README.md) (Microservice which uses ehcache for caching External IDs and managed objects)
+- [agent](agent)
+    - how to create an agent representation for your Microservice
+    - how to subscribe and receive configuration updates for your Microservice
+    - how to write events
 
-[secret](secret/README.md) (Microservice which stores a secret encrypted as tenant option)
+- [realtime](realtime)
+    - how to subscribe and listen for realtime notifications
+    - how to get notified once a managedObject is being updated
+    - how to get notified once a new measurement has been created for a device
+    - how to receive operations and update their status
 
-more to come ...
+- [secret](secret)
+    - how to use tenant options
+    - how to encrypt data and store it as a tenant option
+
+- [ehcache](ehcache)
+    - how to use ehcache to implement a caching mechanism for External Ids and managedObjects
 
 ## Disclaimer
 
