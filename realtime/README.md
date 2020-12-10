@@ -2,6 +2,13 @@
 
 ## Summary
 
+Cumulocity allows subscribing and listening for realtime notifications, for example to receive information about updates for a specific managedObject or to receive operations such as a configuration update operation. 
+To learn more about the concept of realtime notifications have a look at the [official documentation](https://cumulocity.com/guides/reference/real-time-notifications/).
+
+However, pay attention to the limitations when using realtime notifications:
+
+> The long-polling interface is designed as a mechanism for custom applications to poll infrequent events from Cumulocity IoT. The long-polling interface is not designed as a mechanism to stream large data volumes (>100kB/sec) or frequent data (>50 events/sec) out of Cumulocity IoT. The usage of long polling is not supported for such use cases.
+
 This Microservice demonstrates how listeners for Cumulocity realtime notifications can be implemented. Realtime notifications enable the user to listen to updates for certain Cumulocity domain objects such as alarms, operations, measurements or managedObjects.
 
 This template showcases how to listen for:
