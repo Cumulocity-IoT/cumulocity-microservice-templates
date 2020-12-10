@@ -89,9 +89,15 @@ public class NotificationController {
         InventoryRealtimeDeleteAwareNotificationsSubscriber subscriber = new InventoryRealtimeDeleteAwareNotificationsSubscriber(platform);
         this.subscription = subscriber.subscribe(deviceId, new SubscriptionListener<>() {
             @Override
-            public void onNotification(Subscription<String> arg0, ManagedObjectDeleteAwareNotification arg1) {
-                final ManagedObjectRepresentation mo = jsonParser.parse(ManagedObjectRepresentation.class, json.forValue(arg1.getData()));
-                LOG.info("on device update received: {}", mo.toJSON());
+            public void onNotification(Subscription<String> arg0, ManagedObjectDeleteAwareNotification notification) {
+                // the payload differs depending if it's a delete or an update notification
+                if ("DELETE".equals(notification.getRealtimeAction())) {
+                    String managedObjectId = (String) notification.getData();
+                    LOG.info("ManagedObject with ID {} removed.", managedObjectId);
+                } else {
+                    final ManagedObjectRepresentation mo = jsonParser.parse(ManagedObjectRepresentation.class, json.forValue(notification.getData()));
+                    LOG.info("on device update received: {}", mo.toJSON());
+                }
             }
 
             @Override
