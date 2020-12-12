@@ -7,7 +7,7 @@ agent representation and can serve different use cases:
 ## Use case
 
 - Metrics of your micoroservice; You can use measurements for that, to use Cumulocity and device management for visualization. Be aware for more sophisticated monitoring you should use standard like prometheus etc.
-- Configure your microservice via UI: Be aware that your application properties are not easy to access in Kubernetes, with configuration operation you can setup an good way to configure your microservice at runtime! If you have tenant specific configuration you should use tenant options instead (see Microservice settings at https://cumulocity.com/guides/microservice-sdk/java/)
+- Configure your microservice via UI: Be aware that your application properties are not easy to access in Kubernetes, with configuration operation you can setup a good way to configure your microservice at runtime! If you have tenant specific configuration you should use tenant options instead (see Microservice settings at https://cumulocity.com/guides/microservice-sdk/java/)
 - Events/Alarms of your microservice; Use Events and Alarms to increase the transparency of you processes in your microservice. You could even generate alarms if an exception occures etc.
 - Set specific parameter to your microservice (agent) representation, like software versions etc. 
 
@@ -44,9 +44,9 @@ Request body:
 		"ROLE_AUDIT_READ",
 		"ROLE_AUDIT_ADMIN",
 		"ROLE_TENANT_MANAGEMENT_READ",
-        "ROLE_TENANT_MANAGEMENT_ADMIN",
-        "ROLE_OPTION_MANAGEMENT_READ",
-        "ROLE_OPTION_MANAGEMENT_ADMIN",
+        	"ROLE_TENANT_MANAGEMENT_ADMIN",
+        	"ROLE_OPTION_MANAGEMENT_READ",
+        	"ROLE_OPTION_MANAGEMENT_ADMIN",
 		"ROLE_DEVICE_CONTROL_READ",
 		"ROLE_DEVICE_CONTROL_ADMIN"
 	],
