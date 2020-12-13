@@ -1,5 +1,6 @@
 package com.c8y.ms.templates.encrypted.secret.service;
 
+import com.cumulocity.microservice.settings.service.MicroserviceSettingsService;
 import com.cumulocity.model.option.OptionPK;
 import com.cumulocity.rest.representation.tenant.OptionRepresentation;
 import com.cumulocity.sdk.client.option.TenantOptionApi;
@@ -13,12 +14,18 @@ public class SecretService {
      */
     private static final String SECRET_KEY = "credentials.";
 
-    private static final String CATEGORY = "templates";
+    private static final String CATEGORY = "templates-secret";
 
     private TenantOptionApi tenantOptionApi;
 
-    public SecretService(TenantOptionApi tenantOptionApi) {
+    /**
+     *
+     */
+    private MicroserviceSettingsService microserviceSettingsService;
+
+    public SecretService(TenantOptionApi tenantOptionApi, MicroserviceSettingsService microserviceSettingsService) {
         this.tenantOptionApi = tenantOptionApi;
+        this.microserviceSettingsService = microserviceSettingsService;
     }
 
     public OptionRepresentation storeSecret(String key, String secret) {
@@ -29,11 +36,24 @@ public class SecretService {
         return tenantOptionApi.save(option);
     }
 
-    public OptionRepresentation getSecret(String key) {
+    public OptionRepresentation getSecretOption(String key) {
         OptionPK optionPK = new OptionPK();
         optionPK.setCategory(CATEGORY);
         optionPK.setKey(SECRET_KEY + key);
-//		tenantOptionApi.getAllOptionsForCategory("templates") is not going to decrypt the data, you have to use getOption
+//		tenantOptionApi.getAllOptionsForCategory("templates-secret") is not going to decrypt the data, you have to use getOption
         return tenantOptionApi.getOption(optionPK);
+    }
+
+    /**
+     * For microservice settings you should use MicroserviceSettingsService:
+     * The microservice settings module provides two features:
+     *
+     * Configure a microservice by defining tenant options
+     * Override existing properties - Tenant options can override default values from properties files
+     *
+     */
+    public String getSecret(String key) {
+        String secret = microserviceSettingsService.getCredential(key);
+        return secret;
     }
 }

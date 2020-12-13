@@ -1,6 +1,7 @@
 package com.c8y.ms.templates.encrypted.secret.controller;
 
 import com.c8y.ms.templates.encrypted.secret.service.SecretService;
+import com.cumulocity.microservice.settings.service.MicroserviceSettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,8 +30,8 @@ public class SecretRESTController {
 
 	@GetMapping(path = "/{key}", produces = MediaType.TEXT_PLAIN_VALUE)
 	public ResponseEntity<String> getSecret(@PathVariable String key) throws Exception {
-		OptionRepresentation option = secretService.getSecret(key);
-		return new ResponseEntity<String>(option.getValue(), HttpStatus.OK);
+		String secret = secretService.getSecret(key);
+		return new ResponseEntity<String>(secret, HttpStatus.OK);
 	}
 
 	/**
