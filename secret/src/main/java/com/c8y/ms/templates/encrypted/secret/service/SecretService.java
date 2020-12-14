@@ -4,6 +4,7 @@ import com.cumulocity.microservice.settings.service.MicroserviceSettingsService;
 import com.cumulocity.model.option.OptionPK;
 import com.cumulocity.rest.representation.tenant.OptionRepresentation;
 import com.cumulocity.sdk.client.option.TenantOptionApi;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,12 +15,16 @@ public class SecretService {
      */
     private static final String SECRET_KEY = "credentials.";
 
-    private static final String CATEGORY = "templates-secret";
+    @Value("${application.name}")
+    protected String applicationName;
 
     private TenantOptionApi tenantOptionApi;
 
     /**
+     * Checkout for more details:
+     * https://cumulocity.com/guides/microservice-sdk/java
      *
+     * chapter: Microservice settings
      */
     private MicroserviceSettingsService microserviceSettingsService;
 
@@ -30,30 +35,32 @@ public class SecretService {
 
     public OptionRepresentation storeSecret(String key, String secret) {
         OptionRepresentation option = new OptionRepresentation();
-        option.setCategory(CATEGORY);
+        option.setCategory(applicationName);
         option.setKey(SECRET_KEY + key);
         option.setValue(secret);
         return tenantOptionApi.save(option);
     }
 
-    public OptionRepresentation getSecretOption(String key) {
-        OptionPK optionPK = new OptionPK();
-        optionPK.setCategory(CATEGORY);
-        optionPK.setKey(SECRET_KEY + key);
-//		tenantOptionApi.getAllOptionsForCategory("templates-secret") is not going to decrypt the data, you have to use getOption
-        return tenantOptionApi.getOption(optionPK);
-    }
-
     /**
      * For microservice settings you should use MicroserviceSettingsService:
      * The microservice settings module provides two features:
-     *
+     * <p>
      * Configure a microservice by defining tenant options
      * Override existing properties - Tenant options can override default values from properties files
-     *
      */
     public String getSecret(String key) {
         String secret = microserviceSettingsService.getCredential(key);
         return secret;
+    }
+
+    /**
+     * If you want to use another category you can also use directly option api
+     */
+    public OptionRepresentation getSecretOption(String key) {
+        OptionPK optionPK = new OptionPK();
+        optionPK.setCategory(applicationName);
+        optionPK.setKey(SECRET_KEY + key);
+        //tenantOptionApi.getAllOptionsForCategory("templates-secret") is not going to decrypt the data, you have to use getOption
+        return tenantOptionApi.getOption(optionPK);
     }
 }
