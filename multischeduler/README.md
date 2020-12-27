@@ -12,10 +12,9 @@ microserviceSubscriptionsService.runForEachTenant( ()->{
   //do something in tenant context;
   }	
 ```
-all the code is running synchronous in one thread (not parallel). This means that one tenant is blocking, all others too.
+the code is running synchronous in one thread (not parallel). This means that one tenant is blocking, all others too.
 
-To prevent this, we generate for each tenant a different thread for
-the scheduled task.
+To prevent this, the microservice generates for each tenant subscription a scheduled task which uses a thread-pool, see DataSyncTaskScheduler
 
 ## How to run locally:
 
