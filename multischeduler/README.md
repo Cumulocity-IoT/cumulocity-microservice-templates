@@ -1,4 +1,4 @@
-# templates-basic
+# templates-multischeduler
 
 ## Summary
 If you have a multitenant microservice you often have to run a process for each tenant. In case of a scheduled task for example,
@@ -12,9 +12,11 @@ microserviceSubscriptionsService.runForEachTenant( ()->{
   //do something in tenant context;
   }	
 ```
-the code is running synchronous in one thread (not parallel). This means that one tenant is blocking, all others too.
+the code inside is running synchronous in one thread (not in parallel). This means if one tenant is blocking, all others too.
 
-To prevent this, the microservice generates for each tenant subscription a scheduled task which uses a thread-pool, see DataSyncTaskScheduler
+To prevent this, the microservice template generates for each tenant subscription a scheduled task which uses a thread-pool, see DataSyncTaskScheduler.
+
+
 
 ## How to run locally:
 
