@@ -1,4 +1,4 @@
-package com.c8y.ms.templates.basic.utils;
+package com.c8y.ms.templates.multithreading.utils;
 
 import com.cumulocity.sdk.client.Param;
 import com.cumulocity.sdk.client.QueryParam;

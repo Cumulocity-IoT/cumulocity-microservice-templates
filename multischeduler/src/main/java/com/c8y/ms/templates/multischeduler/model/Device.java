@@ -1,4 +1,4 @@
-package com.c8y.ms.templates.basic.model;
+package com.c8y.ms.templates.multischeduler.model;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Objects;

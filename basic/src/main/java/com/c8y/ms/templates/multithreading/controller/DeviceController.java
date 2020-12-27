@@ -1,7 +1,7 @@
-package com.c8y.ms.templates.basic.controller;
+package com.c8y.ms.templates.multithreading.controller;
 
-import com.c8y.ms.templates.basic.model.Device;
-import com.c8y.ms.templates.basic.service.DeviceService;
+import com.c8y.ms.templates.multithreading.model.Device;
+import com.c8y.ms.templates.multithreading.service.DeviceService;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
 import com.google.common.base.Optional;
 import org.springframework.http.HttpStatus;

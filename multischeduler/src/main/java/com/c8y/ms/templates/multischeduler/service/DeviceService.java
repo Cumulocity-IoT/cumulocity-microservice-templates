@@ -1,7 +1,7 @@
-package com.c8y.ms.templates.basic.service;
+package com.c8y.ms.templates.multischeduler.service;
 
 import c8y.IsDevice;
-import com.c8y.ms.templates.basic.model.Device;
+import com.c8y.ms.templates.multischeduler.model.Device;
 import com.cumulocity.microservice.context.ContextService;
 import com.cumulocity.microservice.context.credentials.MicroserviceCredentials;
 import com.cumulocity.microservice.subscription.service.MicroserviceSubscriptionsService;

@@ -11,8 +11,8 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>cumulocity-microservice-templates-basic</artifactId>
-	<description>Cumulocity Microservice Basic template </description>
+	<artifactId>cumulocity-microservice-templates-multischeduler</artifactId>
+	<description>Cumulocity Microservice multischeduler template </description>
 
 	<dependencies>
 		<dependency>
@@ -88,8 +88,8 @@
 							<goal>package</goal>
 						</goals>
 						<configuration>
-							<name>templates-basic</name>
-							<image>templates-basic</image>
+							<name>templates-multithreading</name>
+							<image>templates-multithreading</image>
 							<encoding>UTF-8</encoding>
 							<skip>${c8y.docker.skip}</skip>
 						</configuration>
