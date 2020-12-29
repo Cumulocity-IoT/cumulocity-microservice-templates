@@ -49,9 +49,9 @@ public class DataSyncTaskScheduler {
 			public void run() {
 				String tenant = getCredentials().getTenant();
 				
-				log.info("START, sync data for tenant: {}", tenant);
+				log.info("START, scheduled task for tenant: {}", tenant);
 				dataSyncService.syncDataWithinContext(getCredentials());
-				log.info("END, sync data for tenant: {}", tenant);
+				log.info("END, scheduled task for tenant: {}", tenant);
 			}
 			
 			private MicroserviceCredentials getCredentials() {
