@@ -27,6 +27,7 @@
         <module>secret</module>
         <module>ehcache</module>
         <module>realtime</module>
+        <module>multischeduler</module>
     </modules>
 
     <dependencyManagement>
