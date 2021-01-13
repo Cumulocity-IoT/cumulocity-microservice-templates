@@ -1,4 +1,4 @@
-package com.c8y.ms.templates.multithreading.model;
+package com.c8y.ms.templates.basic.model;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.Objects;

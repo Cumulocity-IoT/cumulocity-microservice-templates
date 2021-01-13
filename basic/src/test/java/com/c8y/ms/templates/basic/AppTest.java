@@ -1,4 +1,4 @@
-package com.c8y.ms.templates.multithreading;
+package com.c8y.ms.templates.basic;
 
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;

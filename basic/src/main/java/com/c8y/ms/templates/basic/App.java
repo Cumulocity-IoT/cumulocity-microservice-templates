@@ -1,4 +1,4 @@
-package com.c8y.ms.templates.multithreading;
+package com.c8y.ms.templates.basic;
 
 import com.cumulocity.microservice.autoconfigure.MicroserviceApplication;
 import org.springframework.boot.SpringApplication;

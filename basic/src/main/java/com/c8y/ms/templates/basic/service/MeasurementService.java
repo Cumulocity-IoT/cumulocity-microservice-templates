@@ -1,6 +1,6 @@
-package com.c8y.ms.templates.multithreading.service;
+package com.c8y.ms.templates.basic.service;
 
-import com.c8y.ms.templates.multithreading.utils.RevertQueryParameter;
+import com.c8y.ms.templates.basic.utils.RevertQueryParameter;
 import com.cumulocity.model.idtype.GId;
 import com.cumulocity.rest.pagination.RestPageRequest;
 import com.cumulocity.rest.representation.measurement.MeasurementRepresentation;

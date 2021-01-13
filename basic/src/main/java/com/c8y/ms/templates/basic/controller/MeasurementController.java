@@ -1,6 +1,6 @@
-package com.c8y.ms.templates.multithreading.controller;
+package com.c8y.ms.templates.basic.controller;
 
-import com.c8y.ms.templates.multithreading.service.MeasurementService;
+import com.c8y.ms.templates.basic.service.MeasurementService;
 import com.cumulocity.rest.representation.measurement.MeasurementRepresentation;
 import com.google.common.base.Optional;
 import org.springframework.http.HttpStatus;

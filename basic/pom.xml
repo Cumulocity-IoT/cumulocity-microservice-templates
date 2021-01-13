@@ -66,7 +66,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring-boot-dependencies.version}</version>
 				<configuration>
-					<mainClass>com.c8y.ms.templates.multithreading.App</mainClass>
+					<mainClass>com.c8y.ms.templates.basic.App</mainClass>
 				</configuration>
 				<executions>
 					<execution>
