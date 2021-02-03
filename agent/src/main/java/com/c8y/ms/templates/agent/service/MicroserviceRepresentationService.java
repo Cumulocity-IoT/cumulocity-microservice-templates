@@ -1,36 +1,39 @@
 package com.c8y.ms.templates.agent.service;
 
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Service;
-
+import c8y.IsDevice;
+import c8y.SoftwareList;
+import c8y.SoftwareListEntry;
+import c8y.SupportedOperations;
 import com.cumulocity.microservice.subscription.model.MicroserviceSubscriptionAddedEvent;
 import com.cumulocity.microservice.subscription.service.MicroserviceSubscriptionsService;
 import com.cumulocity.model.Agent;
 import com.cumulocity.model.ID;
 import com.cumulocity.model.idtype.GId;
+import com.cumulocity.model.measurement.MeasurementValue;
 import com.cumulocity.rest.representation.event.EventRepresentation;
 import com.cumulocity.rest.representation.identity.ExternalIDRepresentation;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
+import com.cumulocity.rest.representation.measurement.MeasurementRepresentation;
 import com.cumulocity.sdk.client.SDKException;
 import com.cumulocity.sdk.client.event.EventApi;
 import com.cumulocity.sdk.client.identity.IdentityApi;
 import com.cumulocity.sdk.client.inventory.InventoryApi;
 import com.cumulocity.sdk.client.measurement.MeasurementApi;
 import com.google.common.base.Optional;
+import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
-import c8y.IsDevice;
-import c8y.SoftwareList;
-import c8y.SoftwareListEntry;
-import c8y.SupportedOperations;
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Service for add microservice as representation in cumulocity als
@@ -212,5 +215,32 @@ public class MicroserviceRepresentationService {
         event.setDateTime(new DateTime());
         event.set(details, "nx_details");
         eventApi.create(event);
+    }
+
+    @Scheduled(fixedDelayString = "${diagnostic.logging.delay.millis:60000}", initialDelay = 10000)
+    public void microserviceDiagnosticLogging() {
+        subscriptions.runForEachTenant(() -> {
+            ManagedObjectRepresentation source = agentRepresentations.get(subscriptions.getTenant());
+
+            Runtime rt = Runtime.getRuntime();
+            long total = rt.totalMemory();
+            long free = rt.freeMemory();
+            long used = total - free;
+
+            Map<String, MeasurementValue> seriesMap = new HashMap<>();
+            seriesMap.put("totalMemory", new MeasurementValue(new BigDecimal(total), "byte"));
+            seriesMap.put("freeMemory", new MeasurementValue(new BigDecimal(free), "byte"));
+            seriesMap.put("usedMemory", new MeasurementValue(new BigDecimal(used), "byte"));
+            createMeasurementWithSeriesMap(source, "ms_DiagnosticLogging", seriesMap);
+        });
+    }
+
+    private void createMeasurementWithSeriesMap(ManagedObjectRepresentation source, String type, Map<String, MeasurementValue> seriesMap) {
+        MeasurementRepresentation measurement = new MeasurementRepresentation();
+        measurement.setSource(source);
+        measurement.setDateTime(new DateTime());
+        measurement.setType(type);
+        measurement.set(seriesMap, type);
+        measurementApi.create(measurement);
     }
 }
