@@ -16,6 +16,7 @@ Collection of templates / examples to give the developer a starting point how co
     - how to create an agent representation for your Microservice
     - how to subscribe and receive configuration updates for your Microservice
     - how to write events
+    - how to create measurement for microservice diagnostic (total, used and free memory)
 
 - [realtime](realtime)
     - how to subscribe and listen for realtime notifications
