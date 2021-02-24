@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 
 import com.cumulocity.microservice.autoconfigure.MicroserviceApplication;
 import com.cumulocity.microservice.context.annotation.EnableContextSupport;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Starter class of template microservice.
@@ -15,6 +16,7 @@ import com.cumulocity.microservice.context.annotation.EnableContextSupport;
  */
 @MicroserviceApplication
 @EnableContextSupport
+@EnableScheduling
 public class App {
 
     public static void main(String[] args) {
