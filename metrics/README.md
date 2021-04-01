@@ -13,21 +13,21 @@ The Micrometer Framework is supported in the Cumulocity Microservice SDK version
 
 There are 3 ways shown how "Timer" of the Micrometer framework can be used. Checkout [Micrometer Concepts]( https://micrometer.io/docs/concepts) for more information, e.g. how to add a description and tags to metrics.
 
-1. Record block of code
+#### Record block of code
 
 [Reference: Micrometer Concepts: Record block of code](https://micrometer.io/docs/concepts#_recording_blocks_of_code)
 
 This mechanism use showed in `DeviceService.getAllDeviceNames()`.
 The timer is named `devices.all.inventory.requests`.
 
-2. Record code with Timer.Sample
+#### Record code with Timer.Sample
 
 [Reference: Micrometer Concepts: Record code with Timer.Sample](https://micrometer.io/docs/concepts#_storing_start_state_in_timer_sample)
 
 This mechanism use showed in `DeviceService.getDeviceRepresentation()`.
 The timer is named `device.inventory.requests`.
 
-3. Record code with `@Timed`-Annotation
+#### Record code with `@Timed`-Annotation
 
 [Reference: Micrometer Concepts: Timed-Annotation](https://micrometer.io/docs/concepts#_storing_start_state_in_timer_sample)
 
@@ -38,13 +38,13 @@ The timer is named `measurements.latest.request`.
 
 The Cumulocity Microservice SDK by default uses the Spring Boot Actuator endpoint to provide the metrics via API.
 
-1. `/prometheus` Prometheus specific endpoint
+#### `/prometheus` Prometheus specific endpoint
 
 [Reference: Prometheus](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-export-prometheus)
 
 This endpoint can be used easily together with a Prometheus and Grafana setup, which tremendously helps setting up an easy monitoring solution for microservices. As another advantage [Grafana even provides a dashboard](https://grafana.com/grafana/dashboards/4701) out of the box, to visualize the default metrics of the Micrometer Framework.
 
-2. `/metrics` generic endpoint
+#### `/metrics` generic endpoint
 
 [Reference: Metrics endpoint](https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-endpoint)
 
@@ -100,6 +100,9 @@ To access the values the metrics need to be queried individually, like:
 </p>
 </details>
 
+## How to run locally
+
+Reference to [basic-template README](https://github.com/SoftwareAG/cumulocity-microservice-templates/tree/feature/metrics-template/creation_of_template_for_metrics_framework/basic#how-to-run-locally)
 
 ## Disclaimer
 
