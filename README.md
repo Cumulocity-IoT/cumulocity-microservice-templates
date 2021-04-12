@@ -33,6 +33,9 @@ Collection of templates / examples to give the developer a starting point how co
 
 - [multischeduler](multischeduler)
     - how to start a separate scheduler thread for each tenant to run tasks in parallel.
+    
+- [metrics](metrics)
+    - how to use the Micrometer Framework with custom metrics to enable fine grainular monitoring of a microservice and its custom business logic.
 
 ## Disclaimer
 
