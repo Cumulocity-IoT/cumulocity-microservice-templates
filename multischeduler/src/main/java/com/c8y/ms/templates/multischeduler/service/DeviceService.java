@@ -1,28 +1,29 @@
 package com.c8y.ms.templates.multischeduler.service;
 
-import c8y.IsDevice;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
 import com.c8y.ms.templates.multischeduler.model.Device;
 import com.cumulocity.microservice.context.ContextService;
 import com.cumulocity.microservice.context.credentials.MicroserviceCredentials;
 import com.cumulocity.microservice.subscription.service.MicroserviceSubscriptionsService;
 import com.cumulocity.model.Agent;
 import com.cumulocity.model.idtype.GId;
-import com.cumulocity.rest.pagination.RestPageRequest;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
 import com.cumulocity.sdk.client.SDKException;
 import com.cumulocity.sdk.client.inventory.InventoryApi;
 import com.cumulocity.sdk.client.inventory.InventoryFilter;
 import com.cumulocity.sdk.client.inventory.ManagedObjectCollection;
 import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import c8y.IsDevice;
 
 /**
  * This is an example service. This should be removed for your real project!
@@ -62,7 +63,7 @@ public class DeviceService {
             inventoryFilter.byFragmentType(IsDevice.class);
 
             ManagedObjectCollection managedObjectsByFilter = inventoryApi.getManagedObjectsByFilter(inventoryFilter);
-            List<ManagedObjectRepresentation> allObjects = Lists.newArrayList(managedObjectsByFilter.get(RestPageRequest.MAX_PAGE_SIZE).allPages());
+            List<ManagedObjectRepresentation> allObjects = Lists.newArrayList(managedObjectsByFilter.get(2000).allPages());
 
             for (ManagedObjectRepresentation managedObjectRepresentation : allObjects) {
                 allDeviceNames.add(managedObjectRepresentation.getName());
@@ -75,7 +76,7 @@ public class DeviceService {
     }
 
     public Optional<ManagedObjectRepresentation> getDeviceRepresentation(final String deviceId) {
-        if (StringUtils.isEmpty(deviceId)) {
+        if (Strings.isNullOrEmpty(deviceId)) {
             return Optional.absent();
         }
 
