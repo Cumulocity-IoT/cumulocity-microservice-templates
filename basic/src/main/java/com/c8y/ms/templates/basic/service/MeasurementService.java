@@ -1,20 +1,20 @@
 package com.c8y.ms.templates.basic.service;
 
-import com.c8y.ms.templates.basic.utils.RevertQueryParameter;
-import com.cumulocity.model.idtype.GId;
-import com.cumulocity.rest.pagination.RestPageRequest;
-import com.cumulocity.rest.representation.measurement.MeasurementRepresentation;
-import com.cumulocity.sdk.client.SDKException;
-import com.cumulocity.sdk.client.measurement.MeasurementApi;
-import com.cumulocity.sdk.client.measurement.MeasurementFilter;
-import com.google.common.base.Optional;
-import org.apache.commons.lang.StringUtils;
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.c8y.ms.templates.basic.utils.RevertQueryParameter;
+import com.cumulocity.model.idtype.GId;
+import com.cumulocity.rest.representation.measurement.MeasurementRepresentation;
+import com.cumulocity.sdk.client.SDKException;
+import com.cumulocity.sdk.client.measurement.MeasurementApi;
+import com.cumulocity.sdk.client.measurement.MeasurementFilter;
+import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 
 @Service
 public class MeasurementService {
@@ -37,7 +37,7 @@ public class MeasurementService {
      * @return the latest measurement as MeasurementRepresentation
      */
     public Optional<MeasurementRepresentation> getLatestMeasurement(final String deviceId) {
-        if (StringUtils.isEmpty(deviceId)) {
+        if (Strings.isNullOrEmpty(deviceId)) {
             return Optional.absent();
         }
 
@@ -48,7 +48,7 @@ public class MeasurementService {
 
         try {
             final List<MeasurementRepresentation> measurements = measurementApi.getMeasurementsByFilter(filter)
-                    .get(RestPageRequest.MAX_PAGE_SIZE, RevertQueryParameter.getInstance()).getMeasurements();
+                    .get(2000, RevertQueryParameter.getInstance()).getMeasurements();
 
             if (measurements == null || measurements.isEmpty()) {
                 return Optional.absent();
