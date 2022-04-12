@@ -97,7 +97,13 @@ GET http://localhost:8080/api/config/ms.config.property.list
 
 RESPONSE: A,B,C,D,E,F
 ```
+It stores memory (total, free and used) as measurements
 
+![Device Management Configuration](DeviceManagementScreenshotMeasurements.PNG)
+
+also software version:
+
+![Device Management Configuration](DeviceManagementScreenshotSoftware.PNG)
 
 ## Disclaimer
 
