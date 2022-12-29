@@ -6,7 +6,7 @@
   },
   "isolation": "MULTI_TENANT",
   "resources": {
-    "cpu": "1",
+    "cpu": "2",
     "memory": "512M"
   },
   "requiredRoles": [
