@@ -16,7 +16,7 @@
         <maven.compiler.target>11</maven.compiler.target>
 
         <spring-boot-dependencies.version>2.5.4</spring-boot-dependencies.version>
-        <c8y.version>1010.0.0</c8y.version>
+        <c8y.version>1015.334.0</c8y.version>
         <c8y.docker.skip>true</c8y.docker.skip>
         <junit.version>4.13</junit.version>
     </properties>
