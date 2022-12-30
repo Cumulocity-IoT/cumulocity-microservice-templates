@@ -2,7 +2,6 @@ package com.c8y.ms.templates.metrics.service;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,12 +10,12 @@ import org.springframework.stereotype.Service;
 import com.c8y.ms.templates.metrics.config.MicrometerConfig;
 import com.c8y.ms.templates.metrics.utils.RevertQueryParameter;
 import com.cumulocity.model.idtype.GId;
-import com.cumulocity.rest.pagination.RestPageRequest;
 import com.cumulocity.rest.representation.measurement.MeasurementRepresentation;
 import com.cumulocity.sdk.client.SDKException;
 import com.cumulocity.sdk.client.measurement.MeasurementApi;
 import com.cumulocity.sdk.client.measurement.MeasurementFilter;
 import com.google.common.base.Optional;
+import com.google.common.base.Strings;
 
 import io.micrometer.core.annotation.Timed;
 
@@ -44,7 +43,7 @@ public class MeasurementService {
 	 */
 	@Timed(value = "measurements.latest.request")
 	public Optional<MeasurementRepresentation> getLatestMeasurement(final String deviceId) {
-		if (StringUtils.isEmpty(deviceId)) {
+		if (Strings.isNullOrEmpty(deviceId)) {
 			return Optional.absent();
 		}
 
@@ -55,7 +54,7 @@ public class MeasurementService {
 
 		try {
 			final List<MeasurementRepresentation> measurements = measurementApi.getMeasurementsByFilter(filter)
-					.get(RestPageRequest.MAX_PAGE_SIZE, RevertQueryParameter.getInstance()).getMeasurements();
+					.get(2000, RevertQueryParameter.getInstance()).getMeasurements();
 
 			if (measurements == null || measurements.isEmpty()) {
 				return Optional.absent();
