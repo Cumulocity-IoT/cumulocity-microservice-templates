@@ -22,7 +22,7 @@
 			"path": "/health",
 			"port": 80
 		},
-		"initialDelaySeconds": 200,
+		"initialDelaySeconds": 30,
 		"periodSeconds": 10
 	},
 	"readinessProbe": {
@@ -30,7 +30,7 @@
 			"path": "/health",
 			"port": 80
 		},
-		"initialDelaySeconds": 220,
+		"initialDelaySeconds": 30,
 		"periodSeconds": 10
 	}
 }
