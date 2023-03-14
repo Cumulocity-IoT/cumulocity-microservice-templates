@@ -85,8 +85,8 @@
                             <goal>package</goal>
                         </goals>
                         <configuration>
-                            <name>templates-basic</name>
-                            <image>templates-basic</image>
+                            <name>templates-realtime</name>
+                            <image>templates-realtime</image>
                             <encoding>UTF-8</encoding>
                             <skip>${c8y.docker.skip}</skip>
                         </configuration>

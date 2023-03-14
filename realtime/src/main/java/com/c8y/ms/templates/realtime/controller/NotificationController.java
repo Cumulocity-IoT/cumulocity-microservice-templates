@@ -12,7 +12,8 @@ import com.cumulocity.model.idtype.GId;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
 import com.cumulocity.rest.representation.measurement.MeasurementRepresentation;
 import com.cumulocity.rest.representation.operation.OperationRepresentation;
-import com.cumulocity.sdk.client.PlatformImpl;
+import com.cumulocity.sdk.client.PlatformParameters;
+import com.cumulocity.sdk.client.RestConnector;
 import com.cumulocity.sdk.client.cep.notification.InventoryRealtimeDeleteAwareNotificationsSubscriber;
 import com.cumulocity.sdk.client.cep.notification.ManagedObjectDeleteAwareNotification;
 import com.cumulocity.sdk.client.devicecontrol.notification.OperationNotificationSubscriber;
@@ -37,9 +38,6 @@ public class NotificationController {
     private String deviceId;
 
     @Autowired
-    private PlatformImpl platform;
-
-    @Autowired
     private ContextService<MicroserviceCredentials> contextService;
 
     private MicroserviceCredentials microserviceCredentials;
@@ -49,6 +47,9 @@ public class NotificationController {
 
     @Autowired
     private OperationService operationService;
+
+    @Autowired
+       private RestConnector restConnector;
 
     private Subscription<String> subscription;
 
@@ -73,9 +74,10 @@ public class NotificationController {
 
         // execute business logic in the context of a particular tenant
         subscriptions.runForTenant(event.getCredentials().getTenant(), () -> {
-            registerForDeviceUpdates();
-            registerForMeasurementUpdates();
-            registerForOperations();
+            PlatformParameters platform = restConnector.getPlatformParameters();
+            registerForDeviceUpdates(platform);
+            registerForMeasurementUpdates(platform);
+            registerForOperations(platform);
         });
     }
 
@@ -85,7 +87,7 @@ public class NotificationController {
      * updates of all managed objects. For subscription the built-in class
      * InventoryRealtimeDeleteAwareNotificationsSubscriber is being used.
      */
-    private void registerForDeviceUpdates() {
+    private void registerForDeviceUpdates(PlatformParameters platform) {
         InventoryRealtimeDeleteAwareNotificationsSubscriber subscriber = new InventoryRealtimeDeleteAwareNotificationsSubscriber(platform);
         this.subscription = subscriber.subscribe(deviceId, new SubscriptionListener<>() {
             @Override
@@ -116,7 +118,7 @@ public class NotificationController {
      * to subscribe on the measurement channel to receive updates when a new
      * measurement has been created
      */
-    private void registerForMeasurementUpdates() {
+    private void registerForMeasurementUpdates(PlatformParameters platform) {
         final MeasurementRealtimeNotificationSubscriber subscriber = new MeasurementRealtimeNotificationSubscriber(platform);
         measurementSubscription = subscriber.subscribe(deviceId, new SubscriptionListener<>() {
             @Override
@@ -136,7 +138,7 @@ public class NotificationController {
      * Listen to operations which are being sent for the device. Only operations for specified device id
      * will be received.
      */
-    private void registerForOperations() {
+    private void registerForOperations(PlatformParameters platform) {
         final OperationNotificationSubscriber subscriber = new OperationNotificationSubscriber(platform);
         operationSubscription = subscriber.subscribe(new GId(deviceId), new SubscriptionListener<>() {
             @Override
