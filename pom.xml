@@ -29,6 +29,7 @@
         <module>realtime</module>
         <module>multischeduler</module>
         <module>metrics</module>
+		<module>ipc</module>
     </modules>
 
     <dependencyManagement>
