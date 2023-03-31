@@ -3,34 +3,20 @@
 ## Summary
 This Microservice template/example is a project, which showcases how you can create REST endpoints within your Microservice and call another Microservice REST API hosted in Cumulocity (Interprocess communication IPC)
 
-There are multiple REST endpoints created by this Microservice. These are defined in the classes `DeviceController.class` and `MeasurementController.class`, which are both marked as `@RestController`. Both controllers define individual APIs and paths, e.g. to access any of endpoints from the DeviceController you have to call `/devices` followed by the path you want to query. 
+There are one REST endpoint created by this Microservice. This is defined in the classes `DeviceController.class`, which are marked as `@RestController`. This controller defines individual API and paths, e.g. to access any of endpoints from the DeviceController you have to call `/devices/names` 
 
-The DeviceController defines three endpoints in total:
+The DeviceController defines one endpoint:
 - `GET /devices/names` 
 
     will return a list of device names
     
-- `GET /devices/{deviceId}` 
 
-    replace the deviceId placeholder with any existing device id and the endpoint will return the managedObject for the corresponding device.
+This DeviceController uses another REST API of another Microservice to accomplish the task (response). Instead of using REST templates a declarative way of defining REST clients is used in that example. [Spring cloud - Feign](https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html)
 
-- `POST /devices` 
-    
-    lets you create a new device in Cumulocity. The request expects a JSON object containing the name and type of the device you want to create.
-    
-    ```json
-    {
-        "name" : "my device name",
-        "type" : "device_type"
-    }
-    ```
-  
-The MeasurementController defines one endpoint:
-- `GET /measurements/latest/{deviceId}`
+However, this example can also easily changed to rest templates. The integral part of this template you will find in `TemplatesBasicClientConfig`. This configuration contains the request interceptor which handles in that case the authorization (Autorization header) and setting the right base URL. If you want to call another microservice which is not hosted in Cumulocity you can modify the request interceptor to do a OAuth2 authorization for example. [See](https://www.baeldung.com/spring-cloud-feign-oauth-token).
 
-    replacing the device id with an existing device id will return the latest measurement for the corresponding device as a JSON object.
 
-In addition to those REST endpoints, you can also find an example for a simple scheduler in `DeviceService.class`, which triggers a request to Cumulocity in a background thread. The scheduler runs continuously in a specified interval which can be configured in the application.properties using the parameters `scheduled.delay.millis` and `scheduled.delay.millis`.
+
 
 ## How to run locally:
 
