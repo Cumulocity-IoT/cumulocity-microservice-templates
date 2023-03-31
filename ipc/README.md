@@ -3,7 +3,7 @@
 ## Summary
 This Microservice template/example is a project, which showcases how you can create REST endpoints within your Microservice and call another Microservice REST API hosted in Cumulocity (Interprocess communication IPC)
 
-There are one REST endpoint created by this Microservice. This is defined in the classes `DeviceController.class`, which are marked as `@RestController`. This controller defines individual API and paths, e.g. to access any of endpoints from the DeviceController you have to call `/devices/names` 
+There are one REST endpoint created by this Microservice. This is defined in the classes `DeviceController.class`. This controller defines the individual API of the microservice.
 
 The DeviceController defines one endpoint:
 - `GET /devices/names` 
@@ -11,7 +11,7 @@ The DeviceController defines one endpoint:
     will return a list of device names
     
 
-This DeviceController uses another REST API of another Microservice to accomplish the task (response). Instead of using REST templates a declarative way of defining REST clients is used in that example. [Spring cloud - Feign](https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html)
+This DeviceController uses another REST API of another Microservice [basic](../basic) to accomplish the task (response). Instead of using REST templates a declarative way of defining REST clients is used in that example. [Spring cloud - Feign](https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html)
 
 However, this example can also easily changed to rest templates. The integral part of this template you will find in `TemplatesBasicClientConfig`. This configuration contains the request interceptor which handles in that case the authorization (Autorization header) and setting the right base URL. If you want to call another microservice which is not hosted in Cumulocity you can modify the request interceptor to do a OAuth2 authorization for example. [See](https://www.baeldung.com/spring-cloud-feign-oauth-token).
 
