@@ -37,7 +37,7 @@ Collection of templates / examples to give the developer a starting point how co
 - [metrics](metrics)
     - how to use the Micrometer Framework with custom metrics to enable fine grainular monitoring of a microservice and its custom business logic.
 
-- [ipc](IPC)
+- [interprocess communication - IPC](ipc)
     - how to implement a interprocess communication between microservices based on REST. The solution is using a declarative REST client (Feign Spring Cloud) to call another microservice.
 
 ## Disclaimer
