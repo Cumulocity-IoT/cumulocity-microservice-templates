@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.cumulocity.microservice.api.CumulocityClientProperties;
@@ -29,9 +30,12 @@ public class DeviceService {
 
     private final TemplatesBasicClient templateBasicClient;
     
+    private final MicroserviceSubscriptionsService subscriptions;
+    
     @Autowired
-    public DeviceService(TemplatesBasicClient templateBasicClient) {
+    public DeviceService(TemplatesBasicClient templateBasicClient,  MicroserviceSubscriptionsService subscriptions) {
         this.templateBasicClient = templateBasicClient;
+        this.subscriptions = subscriptions;
     }
 
     /**
@@ -42,6 +46,20 @@ public class DeviceService {
     	List<String> deviceNames = templateBasicClient.getDeviceNames();
     	
         return deviceNames;
+    }
+    
+    @Scheduled(fixedDelayString = "${scheduled.delay.millis:60000}", initialDelayString = "${scheduled.delay.millis:1000}")
+    public void printDeviceNameFirstFoundToConsole() {
+        subscriptions.runForEachTenant(() -> {
+            final List<String> deviceNames = getAllDeviceNames();
+
+            if (deviceNames == null || deviceNames.isEmpty()) {
+                LOG.info("Devices couldn't be found!");
+                return;
+            }
+
+            LOG.info("Found devices: {}", deviceNames);
+        });
     }
 
 }
