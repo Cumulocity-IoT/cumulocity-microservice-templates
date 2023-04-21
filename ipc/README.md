@@ -3,7 +3,7 @@
 ## Summary
 This Microservice template/example is a project, which showcases how you can create REST endpoints within your Microservice and call another Microservice REST API hosted in Cumulocity (Interprocess communication IPC)
 
-There is one REST endpoint created by this Microservice. This is defined in the classes `DeviceController.class`. This controller defines the individual API of the microservice.
+There is one REST endpoint created by this Microservice. This is defined in the classes [DeviceController.class](src/main/java/com/c8y/ms/templates/ipc/controller/DeviceController.java). This controller defines the individual API of the microservice.
 
 The DeviceController defines one endpoint:
 - `GET /devices/names` 
