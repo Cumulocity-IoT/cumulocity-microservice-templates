@@ -13,7 +13,7 @@ The DeviceController defines one endpoint:
 
 This DeviceController uses another REST API of another Microservice [basic](../basic) to accomplish the task (response). Instead of using REST templates a declarative way of defining REST clients is used in that example. [Spring cloud - Feign](https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-feign.html)
 
-However, this example can also easily changed to rest templates. The integral part of this template you will find in `TemplatesBasicClientConfig`. This configuration contains the request interceptor which handles in that case the authorization (Autorization header) and setting the right base URL. If you want to call another microservice which is not hosted in Cumulocity you can modify the request interceptor to do a OAuth2 authorization for example. [See](https://www.baeldung.com/spring-cloud-feign-oauth-token).
+However, this example can also easily be changed to RestTemplates. You can find the most important code of this template in [TemplatesBasicClientConfig](src/main/java/com/c8y/ms/templates/ipc/service/TemplatesBasicClientConfig.java). This configuration contains the request interceptor which handles in that case the authorization (Autorization header) and setting the right base URL. If you want to call another microservice which is not hosted in Cumulocity you can modify the request interceptor to do a OAuth2 authorization for example. [See](https://www.baeldung.com/spring-cloud-feign-oauth-token).
 
 
 
