@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -10,35 +11,49 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>cumulocity-microservice-agent</artifactId>
-	<description>Cumulocity Microservice template shows how to use an agent representation of microservice to use specific functions like configuration (c8y_Config).</description>
+	<artifactId>cumulocity-microservice-templates-ipc</artifactId>
+	<description>Cumulocity Microservice Interprocess communication template </description>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.nsn.cumulocity.clients-java</groupId>
 			<artifactId>microservice-autoconfigure</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>com.nsn.cumulocity.model</groupId>
-			<artifactId>device-capability-model</artifactId>
-		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>3.1.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-dependencies</artifactId>
+			<version>2021.0.0</version>
+			<type>pom</type>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-
 		<dependency>
-			<groupId>org.mockito</groupId>
-			<artifactId>mockito-core</artifactId>
-			<scope>test</scope>
+			<groupId>com.nsn.cumulocity.model</groupId>
+			<artifactId>device-capability-model</artifactId>
 		</dependency>
 	</dependencies>
 
@@ -61,7 +76,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring-boot-dependencies.version}</version>
 				<configuration>
-					<mainClass>com.c8y.ms.templates.agent.App</mainClass>
+					<mainClass>com.c8y.ms.templates.ipc.App</mainClass>
 				</configuration>
 				<executions>
 					<execution>
@@ -83,8 +98,8 @@
 							<goal>package</goal>
 						</goals>
 						<configuration>
-							<name>templates-agent</name>
-							<image>templates-agent</image>
+							<name>templates-ipc</name>
+							<image>templates-ipc</image>
 							<encoding>UTF-8</encoding>
 							<skip>${c8y.docker.skip}</skip>
 						</configuration>
