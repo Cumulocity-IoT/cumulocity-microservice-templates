@@ -12,108 +12,102 @@ The documentation of this is very limited. Here is an example how to implement m
 ### All available user beans
 
 ```Java
+        @Override
         @UserScope
-@Bean(name = "userCredentials")
-public CumulocityCredentials credentials(){
-        return delegate.getCumulocityCredentials();
+        @Bean(name = "userInventoryApi")
+        public InventoryApi getInventoryApi() throws SDKException {
+            return delegate.getInventoryApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userInventoryApi")
-public InventoryApi getInventoryApi()throws SDKException{
-        return delegate.getInventoryApi();
+        @Override
+        @UserScope
+        @Bean(name = "userIdentityApi")
+        public IdentityApi getIdentityApi() throws SDKException {
+            return delegate.getIdentityApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userIdentityApi")
-public IdentityApi getIdentityApi()throws SDKException{
-        return delegate.getIdentityApi();
+        @Override
+        @UserScope
+        @Bean(name = "userMeasurementApi")
+        public MeasurementApi getMeasurementApi() throws SDKException {
+            return delegate.getMeasurementApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userMeasurementApi")
-public MeasurementApi getMeasurementApi()throws SDKException{
-        return delegate.getMeasurementApi();
+        @Override
+        @UserScope
+        @Bean(name = "userDeviceControlApi")
+        public DeviceControlApi getDeviceControlApi() throws SDKException {
+            return delegate.getDeviceControlApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userDeviceControlApi")
-public DeviceControlApi getDeviceControlApi()throws SDKException{
-        return delegate.getDeviceControlApi();
+        @Override
+        @UserScope
+        @Bean(name = "userAlarmApi")
+        public AlarmApi getAlarmApi() throws SDKException {
+            return delegate.getAlarmApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userAlarmApi")
-public AlarmApi getAlarmApi()throws SDKException{
-        return delegate.getAlarmApi();
+        @Override
+        @UserScope
+        @Bean(name = "userEventApi")
+        public EventApi getEventApi() throws SDKException {
+            return delegate.getEventApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userEventApi")
-public EventApi getEventApi()throws SDKException{
-        return delegate.getEventApi();
+        @Override
+        @UserScope
+        @Bean(name = "userAuditRecordApi")
+        public AuditRecordApi getAuditRecordApi() throws SDKException {
+            return delegate.getAuditRecordApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userAuditRecordApi")
-public AuditRecordApi getAuditRecordApi()throws SDKException{
-        return delegate.getAuditRecordApi();
+        @Override
+        @UserScope
+        @Bean(name = "userDeviceCredentialsApi")
+        public DeviceCredentialsApi getDeviceCredentialsApi() throws SDKException {
+            return delegate.getDeviceCredentialsApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userDeviceCredentialsApi")
-public DeviceCredentialsApi getDeviceCredentialsApi()throws SDKException{
-        return delegate.getDeviceCredentialsApi();
+        @Override
+        @UserScope
+        @Bean(name = "userBinariesApi")
+        public BinariesApi getBinariesApi() throws SDKException {
+            return delegate.getBinariesApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userBinariesApi")
-public BinariesApi getBinariesApi()throws SDKException{
-        return delegate.getBinariesApi();
+        @Override
+        @UserScope
+        @Bean(name = "userUserApi")
+        public UserApi getUserApi() throws SDKException {
+            return delegate.getUserApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userUserApi")
-public UserApi getUserApi()throws SDKException{
-        return delegate.getUserApi();
+        @Override
+        @UserScope
+        @Bean(name = "userTenantOptionApi")
+        public TenantOptionApi getTenantOptionApi() throws SDKException {
+            return delegate.getTenantOptionApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userTenantOptionApi")
-public TenantOptionApi getTenantOptionApi()throws SDKException{
-        return delegate.getTenantOptionApi();
+        @Override
+        @UserScope
+        @Bean(name = "userSystemOptionApi")
+        public SystemOptionApi getSystemOptionApi() throws SDKException {
+            return delegate.getSystemOptionApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userSystemOptionApi")
-public SystemOptionApi getSystemOptionApi()throws SDKException{
-        return delegate.getSystemOptionApi();
+        @Override
+        @UserScope
+        @Bean(name = "userTokenApi")
+        public TokenApi getTokenApi() throws SDKException {
+            return delegate.getTokenApi();
         }
 
-@Override
-@UserScope
-@Bean(name = "userTokenApi")
-public TokenApi getTokenApi()throws SDKException{
-        return delegate.getTokenApi();
-        }
-
-@Override
-@UserScope
-@Bean(name = "userNotificationSubscriptionApi")
-public NotificationSubscriptionApi getNotificationSubscriptionApi()throws SDKException{
-        return delegate.getNotificationSubscriptionApi();
+        @Override
+        @UserScope
+        @Bean(name = "userNotificationSubscriptionApi")
+        public NotificationSubscriptionApi getNotificationSubscriptionApi() throws SDKException {
+            return delegate.getNotificationSubscriptionApi();
         }
 ```
 
