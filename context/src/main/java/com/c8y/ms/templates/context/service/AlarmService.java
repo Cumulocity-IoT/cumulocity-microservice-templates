@@ -19,9 +19,6 @@ public class AlarmService {
     @Autowired
     AlarmApi tenantAlarmApi;
 
-    @Autowired
-    MicroserviceSubscriptionsService subscriptionsService;
-
     public List<AlarmRepresentation> getAlarmsUser() {
         return userAlarmApi.getAlarms().get().getAlarms();
     }

@@ -19,9 +19,6 @@ public class MeasurementService {
     @Autowired
     MeasurementApi tenantMeasurementApi;
 
-    @Autowired
-    MicroserviceSubscriptionsService subscriptionsService;
-
     public List<MeasurementRepresentation> getMeasurementsUser() {
         return userMeasurementApi.getMeasurements().get().getMeasurements();
     }

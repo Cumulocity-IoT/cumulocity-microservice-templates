@@ -19,9 +19,6 @@ public class EventService {
     @Autowired
     EventApi tenantEventApi;
 
-    @Autowired
-    MicroserviceSubscriptionsService subscriptionsService;
-
     public List<EventRepresentation> getEventsUser() {
         return userEventApi.getEvents().get().getEvents();
     }
