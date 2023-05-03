@@ -30,6 +30,7 @@
         <module>multischeduler</module>
         <module>metrics</module>
         <module>ipc</module>
+        <module>context</module>
     </modules>
 
     <dependencyManagement>
