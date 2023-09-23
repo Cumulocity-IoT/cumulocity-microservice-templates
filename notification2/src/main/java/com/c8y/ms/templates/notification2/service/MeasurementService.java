@@ -1,4 +1,4 @@
-package com.c8y.ms.templates.basic.service;
+package com.c8y.ms.templates.notification2.service;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.c8y.ms.templates.basic.utils.RevertQueryParameter;
+import com.c8y.ms.templates.notification2.utils.RevertQueryParameter;
 import com.cumulocity.model.idtype.GId;
 import com.cumulocity.rest.representation.measurement.MeasurementRepresentation;
 import com.cumulocity.sdk.client.SDKException;

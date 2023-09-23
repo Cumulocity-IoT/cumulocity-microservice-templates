@@ -1,4 +1,4 @@
-package com.c8y.ms.templates.basic.utils;
+package com.c8y.ms.templates.notification2.utils;
 
 import com.cumulocity.sdk.client.Param;
 import com.cumulocity.sdk.client.QueryParam;

@@ -1,4 +1,4 @@
-package com.c8y.ms.templates.basic.service;
+package com.c8y.ms.templates.notification2.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.c8y.ms.templates.basic.model.Device;
+import com.c8y.ms.templates.notification2.model.Device;
 import com.cumulocity.microservice.context.ContextService;
 import com.cumulocity.microservice.context.credentials.MicroserviceCredentials;
 import com.cumulocity.microservice.subscription.service.MicroserviceSubscriptionsService;

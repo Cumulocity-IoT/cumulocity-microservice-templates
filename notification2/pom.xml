@@ -23,13 +23,17 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -66,7 +70,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring-boot-dependencies.version}</version>
 				<configuration>
-					<mainClass>com.c8y.ms.templates.basic.App</mainClass>
+					<mainClass>com.c8y.ms.templates.notification2.App</mainClass>
 				</configuration>
 				<executions>
 					<execution>
@@ -88,8 +92,8 @@
 							<goal>package</goal>
 						</goals>
 						<configuration>
-							<name>templates-basic</name>
-							<image>templates-basic</image>
+							<name>templates-noti2</name>
+							<image>templates-noti2</image>
 							<encoding>UTF-8</encoding>
 							<skip>${c8y.docker.skip}</skip>
 						</configuration>
