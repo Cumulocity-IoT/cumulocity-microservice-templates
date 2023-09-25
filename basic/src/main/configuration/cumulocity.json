@@ -29,7 +29,7 @@
 			"path": "/health",
 			"port": 80
 		},
-		"initialDelaySeconds": 30,
+		"initialDelaySeconds": 10,
 		"periodSeconds": 10
 	}
 }

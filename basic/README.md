@@ -3,6 +3,7 @@
 ## Summary
 This Microservice template/example is a really basic project, which showcases how you can create REST endpoints within your Microservice and how you can schedule tasks.
 
+### REST endpoints
 There are multiple REST endpoints created by this Microservice. These are defined in the classes `DeviceController.class` and `MeasurementController.class`, which are both marked as `@RestController`. Both controllers define individual APIs and paths, e.g. to access any of endpoints from the DeviceController you have to call `/devices` followed by the path you want to query. 
 
 The DeviceController defines three endpoints in total:
@@ -30,7 +31,24 @@ The MeasurementController defines one endpoint:
 
     replacing the device id with an existing device id will return the latest measurement for the corresponding device as a JSON object.
 
+### Scheduler
 In addition to those REST endpoints, you can also find an example for a simple scheduler in `DeviceService.class`, which triggers a request to Cumulocity in a background thread. The scheduler runs continuously in a specified interval which can be configured in the application.properties using the parameters `scheduled.delay.millis` and `scheduled.delay.millis`.
+
+### Changing the Log Level dynamically
+Furthermore we added the ability to change the log level at runtime by [exposing](src/main/resources/application-dev.properties#L5) the `loggers` endpoint. You can see all available loggers via:
+- `GET /loggers`
+- `GET /loggers/com.c8y.ms.templates.basic.service`
+
+and change the log level via a POST request:
+- `POST /loggers/com.c8y.ms.templates.basic.service` 
+       
+    ```json
+    {
+        "configuredLevel": "DEBUG"
+    }
+    ```
+
+afterwards you should see the debug message from the [DeviceService](src/main/java/com/c8y/ms/templates/basic/service/DeviceService.java#L53) in the log file.
 
 ## How to run locally:
 

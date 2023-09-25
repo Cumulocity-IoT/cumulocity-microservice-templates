@@ -9,8 +9,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.c8y.ms.templates.basic.model.Device;
-import com.cumulocity.microservice.context.ContextService;
-import com.cumulocity.microservice.context.credentials.MicroserviceCredentials;
 import com.cumulocity.microservice.subscription.service.MicroserviceSubscriptionsService;
 import com.cumulocity.model.Agent;
 import com.cumulocity.model.idtype.GId;
@@ -37,14 +35,10 @@ public class DeviceService {
 
     private final InventoryApi inventoryApi;
 
-    private final ContextService<MicroserviceCredentials> contextService;
-
     private final MicroserviceSubscriptionsService subscriptions;
 
-    public DeviceService(InventoryApi inventoryApi, ContextService<MicroserviceCredentials> contextService,
-                         MicroserviceSubscriptionsService subscriptions) {
+    public DeviceService(InventoryApi inventoryApi, MicroserviceSubscriptionsService subscriptions) {
         this.inventoryApi = inventoryApi;
-        this.contextService = contextService;
         this.subscriptions = subscriptions;
     }
 
@@ -56,6 +50,7 @@ public class DeviceService {
      * @return List<String>, a list of existing devices and their names.
      */
     public List<String> getAllDeviceNames() {
+    	LOG.debug("trying to get all device names...");
         List<String> allDeviceNames = new ArrayList<>();
 
         try {
