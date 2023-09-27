@@ -7,16 +7,14 @@ import java.util.concurrent.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties.Jwt;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 
+import com.c8y.ms.templates.notification2.utils.Notification;
 import com.c8y.ms.templates.notification2.utils.NotificationJwt;
 import com.c8y.ms.templates.notification2.utils.NotificationJwtProviderListener;
-import com.c8y.ms.templates.notification2.utils.Notification;
 import com.c8y.ms.templates.notification2.utils.NotificationWebSocketHandler;
 import com.cumulocity.microservice.api.CumulocityClientProperties;
 
@@ -74,8 +72,14 @@ public class NotificationConsumerService extends NotificationWebSocketHandler im
 	}
 	
 	private URI getWebSocketUrl(String token) throws URISyntaxException {
-		String httpsBaseUrl = clientProperties.getBaseURL();
-		String wssBaseUrl = httpsBaseUrl.replace("https:", "wss:");
+		String httpBaseUrl = clientProperties.getBaseURL();
+		
+		String wssBaseUrl;
+		if(httpBaseUrl.startsWith("https:")) {
+			 wssBaseUrl = "wss" + httpBaseUrl.substring(httpBaseUrl.indexOf(":"));
+		}else {
+			wssBaseUrl = "ws" + httpBaseUrl.substring(httpBaseUrl.indexOf(":"));
+		}
 		return new URI(String.format(WEBSOCKET_URL_PATTERN, wssBaseUrl, token));
 	}
 	

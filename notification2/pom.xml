@@ -95,7 +95,7 @@
 							<name>templates-noti2</name>
 							<image>templates-noti2</image>
 							<encoding>UTF-8</encoding>
-							<skip>${c8y.docker.skip}</skip>
+							<skip>false</skip>
 						</configuration>
 					</execution>
 				</executions>
