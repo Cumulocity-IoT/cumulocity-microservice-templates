@@ -10,31 +10,31 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class JwtToken {
-  private static final Logger log = LoggerFactory.getLogger(JwtToken.class);
+public class NotificationJwt {
+  private static final Logger log = LoggerFactory.getLogger(NotificationJwt.class);
 
   private static final ObjectMapper mapper = new ObjectMapper();
 
-  private String jwtToken;
-  private JwtTokenPayload jwtTokenPayload;
+  private String jwt;
+  private NotificationJwtPayload jwtTokenPayload;
 
-  public JwtToken(String jwtToken) {
+  public NotificationJwt(String jwt) {
     super();
-    this.jwtToken = jwtToken;
-    String payload = new String(Base64.decodeBase64(jwtToken.split("\\.")[1]));
+    this.jwt = jwt;
+    String payload = new String(Base64.decodeBase64(jwt.split("\\.")[1]));
     try {
-      jwtTokenPayload = mapper.readValue(payload, JwtTokenPayload.class);
+      jwtTokenPayload = mapper.readValue(payload, NotificationJwtPayload.class);
     } catch (Exception e) {
       log.error("Reading JWT payload failed!", e);
     }
   }
 
-  public String getUsername() {
+  public String getConsumerName() {
     return jwtTokenPayload.getSub();
   }
 
-  public String getTenant() {
-    return jwtTokenPayload.getTen();
+  public String getTopic() {
+    return jwtTokenPayload.getTopic();
   }
 
   public Long getExpirationTime() {
@@ -53,19 +53,11 @@ public class JwtToken {
     return ZonedDateTime.ofInstant(Instant.ofEpochMilli(jwtTokenPayload.getIat() * 1000), ZoneId.of("GMT"));
   }
   
-  public Long getNotBefore() {
-    return jwtTokenPayload.getNbf();
+  public String toString() {
+    return jwt;
   }
 
-  public ZonedDateTime getNotBeforeDateTime() {
-    return ZonedDateTime.ofInstant(Instant.ofEpochMilli(jwtTokenPayload.getNbf() * 1000), ZoneId.of("GMT"));
-  }
-  
-  public String getJwtToken() {
-    return jwtToken;
-  }
-
-  public JwtTokenPayload getJwtTokenPayload() {
+  public NotificationJwtPayload getJwtTokenPayload() {
     return jwtTokenPayload;
   }
 

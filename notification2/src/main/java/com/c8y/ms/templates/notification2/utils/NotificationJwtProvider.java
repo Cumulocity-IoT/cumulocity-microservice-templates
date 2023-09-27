@@ -7,29 +7,33 @@ import java.util.TimerTask;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.c8y.ms.templates.notification2.service.NotificationService;
 
-public class JwtTokenProvider {
-	private static final Logger log = LoggerFactory.getLogger(JwtTokenProvider.class);
+@Component
+public class NotificationJwtProvider {
+	private static final Logger log = LoggerFactory.getLogger(NotificationJwtProvider.class);
 
-	private final JwtTokenProviderListener jwtTokenChangeListener;
+	private final NotificationJwtProviderListener jwtTokenChangeListener;
 
 	private final NotificationService notificationService;
 
-	public JwtTokenProvider(JwtTokenProviderListener jwtTokenChangeListener, NotificationService notificationService) {
+	@Autowired
+	public NotificationJwtProvider(NotificationJwtProviderListener jwtTokenChangeListener, NotificationService notificationService) {
 		this.jwtTokenChangeListener = jwtTokenChangeListener;
 		this.notificationService = notificationService;
 	}
 
 	public void start() {
 		String jwtTokenString = notificationService.createTokenForConsumer();
-		JwtToken jwtToken = new JwtToken(jwtTokenString);
+		NotificationJwt jwtToken = new NotificationJwt(jwtTokenString);
 		jwtTokenChangeListener.jwtTokenChange(jwtToken);
 		setupNewTimerTask(jwtToken);
 	}
 
-	private void setupNewTimerTask(JwtToken jwtToken) {
+	private void setupNewTimerTask(NotificationJwt jwtToken) {
 		Timer timer = new Timer("Timer");
 		log.debug("IssueAt: {}, Expiration: {}, CurrentDate: {}", jwtToken.getIssuedAtDateTime(),
 				jwtToken.getExpirationTimeDateTime(), ZonedDateTime.now(ZoneId.of("GMT")));
