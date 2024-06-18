@@ -47,6 +47,28 @@ public class DeviceController {
     }
 
     /**
+     * Retrieves all devices using context Service with User Credentials
+     *
+     * @return
+     */
+    @GetMapping(path = "/devicesUser3", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ManagedObjectRepresentation>> getAllDevicesUser3() {
+        List<ManagedObjectRepresentation> response = deviceService.getAllDevicesUser3();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * Retrieves all devices using a scoped inventory API
+     *
+     * @return
+     */
+    @GetMapping(path = "/devicesUser4", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<ManagedObjectRepresentation>> getAllDevicesUser4() {
+        List<ManagedObjectRepresentation> response = deviceService.getAllDevicesUser4();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
      * Retrieves all devices with the Tenant Context (Service User) using default tenant context of RestController
      *
      * @return
