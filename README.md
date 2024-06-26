@@ -41,6 +41,8 @@ Collection of templates / examples to give the developer a starting point how co
     - how to implement a interprocess communication between microservices based on REST. The solution is using a declarative REST client (Feign Spring Cloud) to call another microservice.
 - [context](context)
     - how to use user & tenant context in microservices.
+- [async](async)
+  - how to implement scalable microservices using asynchronous features.
 
 ## Disclaimer
 
