@@ -1,10 +1,10 @@
-package com.c8y.ms.templates.context.service;
+package com.c8y.ms.templates.async.test;
 
 import java.util.concurrent.*;
 
 public class Test {
 
-    public void main() throws ExecutionException, InterruptedException {
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
             System.out.println("Do something async!");
         });

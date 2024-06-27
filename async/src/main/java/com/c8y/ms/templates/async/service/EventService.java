@@ -103,15 +103,6 @@ public class EventService {
      * Method using VirtualThreads + CompletableFuture to create a new thread retrieving events
      **/
     public Future<List<EventRepresentation>> getEvents4() throws InterruptedException {
-        Future <List<EventRepresentation>> future =  virtExecutorService.submit(new Callable<List<EventRepresentation>>(){
-            public List<EventRepresentation> call() throws Exception {
-                return subscriptionsService.callForTenant(subscriptionsService.getTenant(), new Callable<List<EventRepresentation>>() {
-                    public List<EventRepresentation> call() {
-                        return eventApi.getEvents().get(10).getEvents();
-                    }
-                });
-            }
-        });
-        return future;
+        return  virtExecutorService.submit(new EventRetrievalTask<>());
     }
  }

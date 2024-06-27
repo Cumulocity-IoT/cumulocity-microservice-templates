@@ -15,12 +15,20 @@ import org.springframework.web.context.request.async.DeferredResult;
 import java.util.List;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 @RestController
 public class EventController {
 
     private static final Logger log = LoggerFactory.getLogger(EventController.class);
+
+    //ExecutorService using CachedThreadPool
+    ExecutorService executorService = Executors.newCachedThreadPool();
+
+    //ExecutorService using Virtual Threads
+    ExecutorService virtExecutorService = Executors.newVirtualThreadPerTaskExecutor();
 
     @Autowired
     EventService eventService;
@@ -70,23 +78,36 @@ public class EventController {
     public DeferredResult<ResponseEntity<List<EventRepresentation>>> getEvents3() {
         log.info("Calling getEvents3!");
         DeferredResult<ResponseEntity<List<EventRepresentation>>> result = new DeferredResult<>();
-        try {
-            result.setResult(new ResponseEntity<>(eventService.getEvents3().get(), HttpStatus.OK));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-
-        }
+            executorService.submit(() -> {
+                try {
+                    result.setResult(new ResponseEntity<>(eventService.getEvents3().get(), HttpStatus.OK));
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                } catch (ExecutionException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         return result;
     }
 
     /**
-     * Blocking Event Rest Controller calling async Service using Virtual Threads
+     * Non-Blocking Event Rest Controller calling async Service using Virtual Threads
      *
      * @return
      */
     @GetMapping(path = "/asyncEvents4", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<EventRepresentation>> getEvents4() throws InterruptedException, ExecutionException {
+    public DeferredResult<ResponseEntity<List<EventRepresentation>>>getEvents4() throws InterruptedException, ExecutionException {
         log.info("Calling getEvents4!");
-        return new ResponseEntity<>(eventService.getEvents4().get(), HttpStatus.OK);
+        DeferredResult<ResponseEntity<List<EventRepresentation>>> result = new DeferredResult<>();
+        virtExecutorService.submit(() -> {
+            try {
+                result.setResult(new ResponseEntity<>(eventService.getEvents4().get(), HttpStatus.OK));
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        return result;
     }
 }
