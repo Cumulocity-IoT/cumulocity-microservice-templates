@@ -14,7 +14,7 @@ In an example 4 methods demonstrate different ways how this achieved on an examp
 1. Blocking RESTController calling C8Y async using CompletableFuture 
 2. Non-Blocking RESTController calling C8Y async using CompletableFuture
 3. Non-Blocking RESTController calling C8Y async using Executor Service
-4. Non-Blocking RESTController calling C8Y async combining Virtual Threads + CompletableFuture
+4. Non-Blocking RESTController calling C8Y async using Virtual Threads
 
 
 ## How to run locally:
