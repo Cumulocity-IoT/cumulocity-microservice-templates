@@ -8,12 +8,13 @@ In an example 4 methods demonstrate different ways how this achieved on an examp
 
 ## Use case
 
-4 basic flavors of async programming will be demonstrated.
+4 basic flavors of async programming will be demonstrated starting with the common blocking code style.
 
+0. Blocking RESTController calling blocking Service
 1. Blocking RESTController calling C8Y async using CompletableFuture 
 2. Non-Blocking RESTController calling C8Y async using CompletableFuture
-3. Non-Blocking Event Rest Controller calling C8Y async using Executor Service
-4. Non-Blocking Event Rest Controller calling C8Y async combining Virtual Threads + CompletableFuture
+3. Non-Blocking RESTController calling C8Y async using Executor Service
+4. Non-Blocking RESTController calling C8Y async combining Virtual Threads + CompletableFuture
 
 
 ## How to run locally:
