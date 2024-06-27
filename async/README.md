@@ -30,9 +30,9 @@ Request body:
 
 ```javascript
 {
-  "key": "templates-ehcache",
-  "name": "templates-ehcache",
-  "contextPath": "templates-ehcache",
+  "key": "templates-async",
+  "name": "templates-async",
+  "contextPath": "templates-async",
   "type": "MICROSERVICE",
   "manifest":{},	
 	"requiredRoles": [
@@ -58,7 +58,7 @@ Response body:
 ```javascript
 {
     "password": "************************",
-    "name": "servicebootstrap_templates-ehcache",
+    "name": "servicebootstrap_templates-async",
     "tenant": "<your tenant>"
 }
 ```

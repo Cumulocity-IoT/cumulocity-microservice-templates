@@ -5,6 +5,7 @@ import com.cumulocity.rest.representation.event.EventRepresentation;
 import com.cumulocity.sdk.client.SDKException;
 import com.cumulocity.sdk.client.event.EventApi;
 
+import jdk.jfr.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,19 +102,16 @@ public class EventService {
     /**
      * Method using VirtualThreads + CompletableFuture to create a new thread retrieving events
      **/
-    public CompletableFuture<List<EventRepresentation>> getEvents4() {
-        var eventFuture = new CompletableFuture();
-        Thread.startVirtualThread(() -> {
-            subscriptionsService.runForEachTenant(() -> {
-                try {
-                    log.info("Retrieving events...");
-                    eventFuture.complete(eventApi.getEvents().get(10).getEvents());
-                    log.info("Retrieving events completed!");
-                } catch (Exception e) {
-                    eventFuture.completeExceptionally(e);
-                }
-            });
+    public Future<List<EventRepresentation>> getEvents4() throws InterruptedException {
+        Future <List<EventRepresentation>> future =  virtExecutorService.submit(new Callable<List<EventRepresentation>>(){
+            public List<EventRepresentation> call() throws Exception {
+                return subscriptionsService.callForTenant(subscriptionsService.getTenant(), new Callable<List<EventRepresentation>>() {
+                    public List<EventRepresentation> call() {
+                        return eventApi.getEvents().get(10).getEvents();
+                    }
+                });
+            }
         });
-        return eventFuture;
+        return future;
     }
  }

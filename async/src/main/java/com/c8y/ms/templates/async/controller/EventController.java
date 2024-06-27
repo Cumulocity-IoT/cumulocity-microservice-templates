@@ -80,15 +80,13 @@ public class EventController {
     }
 
     /**
-     * Non-Blocking Event Rest Controller calling async Service using Virtual Threads
+     * Blocking Event Rest Controller calling async Service using Virtual Threads
      *
      * @return
      */
     @GetMapping(path = "/asyncEvents4", produces = MediaType.APPLICATION_JSON_VALUE)
-    public DeferredResult<ResponseEntity<List<EventRepresentation>>> getEvents4() {
+    public ResponseEntity<List<EventRepresentation>> getEvents4() throws InterruptedException, ExecutionException {
         log.info("Calling getEvents4!");
-        DeferredResult<ResponseEntity<List<EventRepresentation>>> result = new DeferredResult<>();
-        eventService.getEvents4().thenApply(events -> result.setResult(new ResponseEntity<>(events, HttpStatus.OK)));
-        return result;
+        return new ResponseEntity<>(eventService.getEvents4().get(), HttpStatus.OK);
     }
 }
