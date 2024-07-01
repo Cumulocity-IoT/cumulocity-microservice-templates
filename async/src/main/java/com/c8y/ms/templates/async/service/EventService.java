@@ -95,10 +95,10 @@ public class EventService {
      * Method using ExecutorService to create a new thread retrieving events
      **/
     public Future<List<EventRepresentation>> getEvents3() throws ExecutionException, InterruptedException {
-        log.info("Returning result!");
         executorService.submit(() -> {
            simulateBlocking();
         });
+        log.info("Returning result!");
         return executorService.submit(new EventRetrievalTask<>());
     }
 
@@ -120,10 +120,10 @@ public class EventService {
      * Method using VirtualThreads + CompletableFuture to create a new thread retrieving events
      **/
     public Future<List<EventRepresentation>> getEvents4() throws InterruptedException {
-        log.info("Returning result!");
         virtExecutorService.submit(() -> {
             simulateBlocking();
         });
+        log.info("Returning result!");
         return virtExecutorService.submit(new EventRetrievalTask<>());
     }
 
