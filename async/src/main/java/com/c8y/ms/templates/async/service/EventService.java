@@ -47,7 +47,7 @@ public class EventService {
             throw new RuntimeException(e);
         }
         List<EventRepresentation> eventList = eventApi.getEvents().get(10).getEvents();
-        log.info("Events found: {}", eventList);
+        log.info("# Events found: {}", eventList.size());
         log.info("Returning result!");
         return eventList;
     }
@@ -64,7 +64,7 @@ public class EventService {
                         Thread.sleep(2000);
                         List<EventRepresentation> eventList = eventApi.getEvents().get(10).getEvents();
                         eventFuture.complete(eventApi.getEvents().get(10).getEvents());
-                        log.info("Events found: {}", eventList);
+                        log.info("# Events found: {}", eventList.size());
                     } catch (Exception e) {
                         e.printStackTrace();
                         CompletableFuture.failedFuture(e);
@@ -87,7 +87,7 @@ public class EventService {
                 log.info("Simulating load...");
                 Thread.sleep(2000);
                 List<EventRepresentation> eventList = eventApi.getEvents().get(10).getEvents();
-                log.info("Events found: {}", eventList);
+                log.info("# Events found: {}", eventList.size());
                 eventFuture.complete(eventList);
             } catch (Exception e) {
                 eventFuture.completeExceptionally(e);
@@ -117,7 +117,7 @@ public class EventService {
                     throw new RuntimeException(e);
                 }
                 eventList.addAll(eventApi.getEvents().get(10).getEvents());
-                log.info("Events found: {}", eventList);
+                log.info("# Events found: {}", eventList.size());
 
             });
             return eventList;
