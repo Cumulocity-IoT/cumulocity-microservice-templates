@@ -2,20 +2,15 @@ package com.c8y.ms.templates.async.service;
 
 import com.cumulocity.microservice.subscription.service.MicroserviceSubscriptionsService;
 import com.cumulocity.rest.representation.event.EventRepresentation;
-import com.cumulocity.sdk.client.SDKException;
 import com.cumulocity.sdk.client.event.EventApi;
-
-import jdk.jfr.Event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -39,13 +34,8 @@ public class EventService {
     ExecutorService virtExecutorService = Executors.newVirtualThreadPerTaskExecutor();
 
 
-    public List<EventRepresentation> getEvents0()  {
-        log.info("Simulating load...");
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+    public List<EventRepresentation> getEvents0() {
+        simulateBlocking();
         List<EventRepresentation> eventList = eventApi.getEvents().get(10).getEvents();
         log.info("# Events found: {}", eventList.size());
         log.info("Returning result!");
@@ -57,20 +47,21 @@ public class EventService {
      **/
     public CompletableFuture<List<EventRepresentation>> getEvents1() {
         var eventFuture = new CompletableFuture();
-        CompletableFuture.runAsync(() -> {
-                subscriptionsService.runForEachTenant(() -> {
-                    try {
-                        log.info("Simulating load...");
-                        Thread.sleep(2000);
-                        List<EventRepresentation> eventList = eventApi.getEvents().get(10).getEvents();
-                        eventFuture.complete(eventApi.getEvents().get(10).getEvents());
-                        log.info("# Events found: {}", eventList.size());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        CompletableFuture.failedFuture(e);
-                    }
-                });
 
+        CompletableFuture.runAsync(() -> {
+            simulateBlocking();
+        });
+        CompletableFuture.runAsync(() -> {
+            subscriptionsService.runForEachTenant(() -> {
+                try {
+                    List<EventRepresentation> eventList = eventApi.getEvents().get(10).getEvents();
+                    eventFuture.complete(eventApi.getEvents().get(10).getEvents());
+                    log.info("# Events found: {}", eventList.size());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    CompletableFuture.failedFuture(e);
+                }
+            });
         });
         log.info("Returning result!");
         return eventFuture;
@@ -80,12 +71,14 @@ public class EventService {
      * Method using @Async annotation to call whole method asynchronously
      **/
     @Async
-    public CompletableFuture<List<EventRepresentation>> getEvents2()  {
+    public CompletableFuture<List<EventRepresentation>> getEvents2() {
         var eventFuture = new CompletableFuture();
+        //@Async in @Async does not work we have to call runAsync here.
+        CompletableFuture.runAsync(() -> {
+            simulateBlocking();
+        });
         subscriptionsService.runForEachTenant(() -> {
             try {
-                log.info("Simulating load...");
-                Thread.sleep(2000);
                 List<EventRepresentation> eventList = eventApi.getEvents().get(10).getEvents();
                 log.info("# Events found: {}", eventList.size());
                 eventFuture.complete(eventList);
@@ -96,12 +89,17 @@ public class EventService {
         log.info("Returning result!");
         return eventFuture;
     }
+
+
     /**
      * Method using ExecutorService to create a new thread retrieving events
      **/
     public Future<List<EventRepresentation>> getEvents3() throws ExecutionException, InterruptedException {
         log.info("Returning result!");
-        return executorService.submit( new EventRetrievalTask<>());
+        executorService.submit(() -> {
+           simulateBlocking();
+        });
+        return executorService.submit(new EventRetrievalTask<>());
     }
 
     public class EventRetrievalTask<T> implements Callable<List<EventRepresentation>> {
@@ -110,12 +108,6 @@ public class EventService {
         public List<EventRepresentation> call() throws Exception {
             List<EventRepresentation> eventList = new ArrayList<>();
             subscriptionsService.runForEachTenant(() -> {
-                log.info("Simulating load...");
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
                 eventList.addAll(eventApi.getEvents().get(10).getEvents());
                 log.info("# Events found: {}", eventList.size());
 
@@ -129,9 +121,21 @@ public class EventService {
      **/
     public Future<List<EventRepresentation>> getEvents4() throws InterruptedException {
         log.info("Returning result!");
+        virtExecutorService.submit(() -> {
+            simulateBlocking();
+        });
         return virtExecutorService.submit(new EventRetrievalTask<>());
     }
 
+    public void simulateBlocking() {
+        try {
+            log.info("Simulating blocking for 2s...");
+            Thread.sleep(2000);
+            log.info("Blocking completed!");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
- }
+}
