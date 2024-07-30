@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.client.WebSocketConnectionManager;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
@@ -42,6 +43,14 @@ public class NotificationConsumerService extends NotificationWebSocketHandler im
 	@Override
 	protected void handleNotification(WebSocketSession session, Notification notification) {
 		log.info(notification.getMessage());
+	}
+	
+	@Override
+	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+		log.info("Connection closed: {}, Status: {}", session.getId(), status.getCode());
+		if(status.getCode() == 1001) {
+			log.info("Is websocket connect? {}", webSocketConnectionManager.isConnected());
+		}
 	}
 
 	public void connect(String jwt) throws InterruptedException, ExecutionException, URISyntaxException {

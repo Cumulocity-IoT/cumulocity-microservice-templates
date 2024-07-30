@@ -11,10 +11,11 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 public class StandardWebSocketClientConfig {
 
 	@Bean
-    public StandardWebSocketClient client() {
-    	WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
-    	webSocketContainer.setAsyncSendTimeout(-1);
-        return new StandardWebSocketClient(webSocketContainer);
-    }
-	
+	public StandardWebSocketClient client() {
+		WebSocketContainer webSocketContainer = ContainerProvider.getWebSocketContainer();
+		webSocketContainer.setAsyncSendTimeout(-1);
+		webSocketContainer.setDefaultMaxSessionIdleTimeout(-1);
+		return new StandardWebSocketClient(webSocketContainer);
+	}
+
 }
