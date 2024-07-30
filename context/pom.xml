@@ -95,7 +95,7 @@
                             <name>templates-context</name>
                             <image>templates-context</image>
                             <encoding>UTF-8</encoding>
-                            <!--<skip>${c8y.docker.skip}</skip>-->
+                            <skip>${c8y.docker.skip}</skip>
                         </configuration>
                     </execution>
                 </executions>
