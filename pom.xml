@@ -31,6 +31,7 @@
         <module>metrics</module>
         <module>ipc</module>
         <module>context</module>
+        <module>async</module>
     </modules>
 
     <dependencyManagement>
