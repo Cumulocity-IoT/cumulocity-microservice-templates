@@ -1,4 +1,4 @@
-package test.java.com.c8y.ms.templates.context;
+package com.c8y.ms.templates.context;
 
 import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;

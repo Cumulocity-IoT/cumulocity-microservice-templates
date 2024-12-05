@@ -127,23 +127,11 @@ local.properties
 
 ##############################
 
-## NetBeans
+## vscode
 
 ##############################
 
-nbproject/private/
-
-build/
-
-nbbuild/
-
-dist/
-
-nbdist/
-
-nbactions.xml
-
-nb-configuration.xml
+.vscode/
 
 
 
