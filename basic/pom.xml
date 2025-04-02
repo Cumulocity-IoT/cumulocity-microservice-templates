@@ -42,6 +42,12 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+	      <groupId>org.junit.jupiter</groupId>
+	      <artifactId>junit-jupiter</artifactId>
+	      <version>5.7.1</version>
+	      <scope>test</scope>
+	    </dependency>
+		<dependency>
 			<groupId>com.nsn.cumulocity.model</groupId>
 			<artifactId>device-capability-model</artifactId>
 		</dependency>

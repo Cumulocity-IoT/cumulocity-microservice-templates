@@ -1,4 +1,4 @@
-package com.c8y.ms.templates.basic;
+package com.c8y.ms.templates.encrypted.secret;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

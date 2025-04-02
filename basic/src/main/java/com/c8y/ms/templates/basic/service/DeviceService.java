@@ -2,6 +2,7 @@ package com.c8y.ms.templates.basic.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import c8y.IsDevice;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * This is an example service. This should be removed for your real project!
@@ -110,6 +113,39 @@ public class DeviceService {
         }
 
         return Optional.absent();
+    }    
+    
+    
+    public Optional<ManagedObjectRepresentation> updateDevice(String deviceId, String request)
+    {
+    	Optional<ManagedObjectRepresentation> deviceToUpdate = this.getDeviceRepresentation(deviceId);
+    	
+    	if(deviceToUpdate.isPresent())
+    	{
+			try
+			{
+				ObjectMapper mapper = new ObjectMapper();
+				Map<String, Object> map = mapper.readValue(request, Map.class);
+		
+				ManagedObjectRepresentation managedObjRep = new ManagedObjectRepresentation();
+				managedObjRep.setAttrs(map);
+				managedObjRep.setId(GId.asGId(deviceId));
+				
+				ManagedObjectRepresentation deviceUpdated = inventoryApi.update(managedObjRep);
+				
+				return Optional.of(deviceUpdated);
+			}
+			catch(Exception exception)
+			{
+				LOG.error("Error occurred while updating an existing device", exception);
+				return Optional.absent();
+			}
+    	}
+    	else
+    	{
+    		LOG.error("Error device not found to update");
+    		return Optional.absent();
+    	}
     }
 
     /**

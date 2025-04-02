@@ -54,4 +54,12 @@ public class DeviceController {
 
         return new ResponseEntity<>(deviceCreated.get().toJSON(), HttpStatus.OK);
     }
+    
+    @PutMapping(path = "/{deviceId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateDevice(final @PathVariable String deviceId, final @RequestBody String request) {
+    	
+    	final Optional<ManagedObjectRepresentation> deviceUpdated = deviceService.updateDevice(deviceId, request);
+    	
+    	return new ResponseEntity<>(deviceUpdated.get().toJSON(), HttpStatus.OK);
+    }
 }
