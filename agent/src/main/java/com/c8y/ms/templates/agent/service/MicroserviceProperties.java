@@ -3,7 +3,7 @@ package com.c8y.ms.templates.agent.service;
 /**
  * Contains all specific property keys which are configurable during runtime.
  *
- * @author alexander.pester@softwareag.com
+ * @author alexander.pester@cumulocity.com
  * @version 2.2.0
  * <p>
  * 15.08.2019

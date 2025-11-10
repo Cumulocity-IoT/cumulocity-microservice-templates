@@ -2,7 +2,7 @@
 
 ## Summary
 
-Collection of templates / examples to give the developer a starting point how common features can be implemented in a Microservice by using Cumulocity's [Microservice SDK for Java](https://cumulocity.com/guides/microservice-sdk/java/).
+Collection of templates / examples to give the developer a starting point how common features can be implemented in a Microservice by using Cumulocity's [Microservice SDK for Java](https://cumulocity.com/docs/microservice-sdk/java/).
 
 ## Templates & Examples
 
@@ -42,15 +42,25 @@ Collection of templates / examples to give the developer a starting point how co
 - [context](context)
     - how to use user & tenant context in microservices.
 
-## Disclaimer
+# Useful links 
 
-These tools are provided as-is and without warranty or support. They do not constitute part of the Software AG product suite. Users are free to use, fork and modify them, subject to the license agreement. While Software AG welcomes contributions, we cannot guarantee to include every contribution in the master project.
+📘 Explore the Knowledge Base   
+Dive into a wealth of Cumulocity IoT tutorials and articles in our [Tech Community](https://techcommunity.cumulocity.com).  
 
-## Contact
+💡 Get Expert Answers    
+Stuck or just curious? Ask the Cumulocity IoT experts directly on our [Forum](https://techcommunity.cumulocity.com/c/forum/5).   
 
-For more information you can Ask a Question in the [TECHcommunity Forums](https://tech.forums.softwareag.com/tags/c/forum/1/Cumulocity-IoT).
+🚀 Try Cumulocity IoT    
+See Cumulocity IoT in action with a [Free Trial](https://www.cumulocity.com/start-your-journey/free-trial).   
 
-You can find additional information in the [Software AG TECHcommunity](https://tech.forums.softwareag.com/tag/Cumulocity-IoT).
+✍️ Share Your Feedback    
+Your input drives our innovation. If you find a bug, please create an issue in the repository. If you'd like to share your ideas or feedback, please post them [here](https://techcommunity.cumulocity.com/c/feedback-ideas/14). 
 
-_________________
-Contact us at [TECHcommunity](mailto:technologycommunity@softwareag.com?subject=Github/SoftwareAG) if you have any questions.
+   
+# Authors 
+
+[Alexander Pester](mailto:alexander.pester@cumulocity.com)
+
+# Disclaimer
+
+These tools are provided as-is and without warranty or support. They do not constitute part of the Cumulocity product suite. Users are free to use, fork and modify them, subject to the license agreement. While Cumulocity welcomes contributions, we cannot guarantee to include every contribution in the master project.

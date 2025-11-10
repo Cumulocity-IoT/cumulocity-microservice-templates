@@ -18,7 +18,7 @@ import com.cumulocity.sdk.client.notification.SubscriptionListener;
 /**
  * Operation listener, consumes "c8y_Configuration" operation
  *
- * @author alexander.pester@softwareag.com
+ * @author alexander.pester@cumulocity.com
  * @version 0.0.1
  */
 @Service

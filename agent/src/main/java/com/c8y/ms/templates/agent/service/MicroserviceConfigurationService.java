@@ -15,7 +15,7 @@ import c8y.Configuration;
 /**
  * Service handles specific microservice configurations defined in MicroserviceProperties.
  *
- * @author alexander.pester@softwareag.com
+ * @author alexander.pester@cumulocity.com
  * @version 2.2.0
  * <p>
  * 15.08.2019

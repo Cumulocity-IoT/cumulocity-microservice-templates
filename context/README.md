@@ -112,7 +112,7 @@ The documentation of this is very limited. Here is an example how to implement m
 ```
 
 For a full list of tenant / user qualifier of beans, have a look
-here: https://github.com/SoftwareAG/cumulocity-clients-java/blob/e113ec32b812252b73dc80cc289d822bed41bcfe/microservice/api/src/main/java/com/cumulocity/microservice/api/CumulocityClientFeature.java
+here: https://github.com/Cumulocity-IoT/cumulocity-clients-java/blob/develop/microservice/api/src/main/java/com/cumulocity/microservice/api/CumulocityClientFeature.java
 
 ## How to run locally:
 
@@ -174,21 +174,3 @@ to your src/main/resources/application-dev.properties
 6. Start microservice with spring profile "dev"
 
 java -Dspring.profiles.active=dev -jar cumulocity-microservice-templates-context-0.0.1-SNAPSHOT.jar
-
-## Disclaimer
-
-These tools are provided as-is and without warranty or support. They do not constitute part of the Software AG product
-suite. Users are free to use, fork and modify them, subject to the license agreement. While Software AG welcomes
-contributions, we cannot guarantee to include every contribution in the master project.
-
-## Contact
-
-For more information you can Ask a Question in
-the [TECHcommunity Forums](http://tech.forums.softwareag.com/techjforum/forums/list.page?product=cumulocity).
-
-You can find additional information in
-the [Software AG TECHcommunity](http://techcommunity.softwareag.com/home/-/product/name/cumulocity).
-
-_________________
-Contact us at [TECHcommunity](mailto:technologycommunity@softwareag.com?subject=Github/SoftwareAG) if you have any
-questions.
