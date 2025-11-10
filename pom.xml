@@ -15,9 +15,9 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <spring-boot-dependencies.version>3.3.5</spring-boot-dependencies.version>
-        <c8y.version>1020.155.0</c8y.version>
-        <c8y.docker.skip>false</c8y.docker.skip>
+        <spring-boot-dependencies.version>3.5.7</spring-boot-dependencies.version>
+        <c8y.version>2025.81.0</c8y.version>
+        <c8y.docker.skip>true</c8y.docker.skip>
         <junit.version>4.13</junit.version>
     </properties>
 
