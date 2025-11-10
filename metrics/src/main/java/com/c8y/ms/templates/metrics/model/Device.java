@@ -2,7 +2,7 @@ package com.c8y.ms.templates.metrics.model;
 
 import java.util.Objects;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 public class Device {
 
