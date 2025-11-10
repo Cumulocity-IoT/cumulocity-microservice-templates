@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * Starter class of template microservice.
  *
- * @author alexander.pester@softwareag.com
+ * @author alexander.pester@cumulocity.com
  * @version 0.0.1
  * <p>
  * 07.08.2018

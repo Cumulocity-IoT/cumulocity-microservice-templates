@@ -39,7 +39,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * Service for add microservice as representation in cumulocity als
  * managedobject with agent fragment in order to store events etc. to it.
  *
- * @author alexander.pester@softwareag.com
+ * @author alexander.pester@cumulocity.com
  * @version 0.0.1
  * <p>
  * 03.09.2019

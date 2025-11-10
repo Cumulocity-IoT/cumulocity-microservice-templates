@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Instance of this class contains all properties during runtime. Properties can be set by configString from C8y_Configuration element or directly by key & value.
  *
- * @author alexander.pester@softwareag.com
+ * @author alexander.pester@cumulocity.com
  * @version 2.2.0
  * <p>
  * 15.08.2019
